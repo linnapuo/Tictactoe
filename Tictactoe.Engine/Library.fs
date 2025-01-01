@@ -18,7 +18,6 @@ type Lobby = {
 
 type Move = {
     gameId: string
-    playerId: string
     square: int
 }
 

@@ -7,6 +7,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Tictactoe.Server", "Tictact
 EndProject
 Project("{F2A71F9B-5D33-465A-A702-920D77279786}") = "Tictactoe.Engine", "Tictactoe.Engine\Tictactoe.Engine.fsproj", "{8FC527BE-0DD0-4602-B65C-C8A044344EB6}"
 EndProject
+Project("{F2A71F9B-5D33-465A-A702-920D77279786}") = "Tictactoe.Engine.UnitTest", "Tictactoe.Engine.UnitTest\Tictactoe.Engine.UnitTest.fsproj", "{AF6DB584-C0AD-4CF8-9074-401D0B959929}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -21,6 +23,10 @@ Global
 		{8FC527BE-0DD0-4602-B65C-C8A044344EB6}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{8FC527BE-0DD0-4602-B65C-C8A044344EB6}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{8FC527BE-0DD0-4602-B65C-C8A044344EB6}.Release|Any CPU.Build.0 = Release|Any CPU
+		{AF6DB584-C0AD-4CF8-9074-401D0B959929}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{AF6DB584-C0AD-4CF8-9074-401D0B959929}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{AF6DB584-C0AD-4CF8-9074-401D0B959929}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{AF6DB584-C0AD-4CF8-9074-401D0B959929}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
