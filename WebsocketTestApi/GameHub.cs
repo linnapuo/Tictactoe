@@ -77,7 +77,7 @@ public class GameHub : Hub
     {
         var gamestate = new Gamestate(lobby.name, lobby.game.squares, lobby.players, lobby.game.xIsNext);
 
-        await Task.Delay(1000);
+        await Task.Delay(500);
 
         await Clients.Group(lobby.name).SendAsync(nameof(Gamestate), gamestate);
     }
