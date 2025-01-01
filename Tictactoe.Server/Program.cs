@@ -10,6 +10,7 @@ builder.Services.AddSignalR(options =>
     options.AddFilter<ExceptionFilter>();
 });
 builder.Services.AddMemoryCache();
+builder.Services.AddControllers();
 
 var app = builder.Build();
 
@@ -34,5 +35,6 @@ app.UseCors(builder =>
 
 app.MapHub<GameHub>("/gamehub");
 app.MapHub<ChatHub>("/chathub");
+app.MapControllers();
 
 app.Run();
