@@ -3,10 +3,7 @@ using Tictactoe.Server;
 
 var builder = WebApplication.CreateBuilder(args);
 
-// Add services to the container.
-// Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
-builder.Services.AddEndpointsApiExplorer();
-builder.Services.AddSwaggerGen();
+builder.Services.AddOpenApi("v1");
 builder.Services.AddCors();
 builder.Services.AddSignalR(options =>
 {
@@ -16,11 +13,13 @@ builder.Services.AddMemoryCache();
 
 var app = builder.Build();
 
-// Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
 {
-    app.UseSwagger();
-    app.UseSwaggerUI();
+    app.MapOpenApi("/openapi/v1.json");
+    app.UseSwaggerUI(options =>
+    {
+        options.SwaggerEndpoint("/openapi/v1.json", "v1");
+    });
 }
 
 app.UseHttpsRedirection();
@@ -37,4 +36,3 @@ app.MapHub<GameHub>("/gamehub");
 app.MapHub<ChatHub>("/chathub");
 
 app.Run();
-
