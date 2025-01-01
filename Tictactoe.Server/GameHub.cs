@@ -4,25 +4,18 @@ using Tictactoe.Engine;
 
 namespace Tictactoe.Server;
 
-public class GameHub : Hub
+public class GameHub(IMemoryCache cache) : Hub
 {
-    private IMemoryCache Cache { get; }
-
-    public GameHub(IMemoryCache cache)
-    {
-        Cache = cache;
-    }
-
     public async Task Create(Create create)
     {
-        if (Cache.TryGetValue(create.gameId, out Lobby _))
+        if (cache.TryGetValue(create.gameId, out Lobby? _))
         {
             throw new HubException("Game already exists");
         }
 
         var lobby = Funcs.CreateGame(create, Context.ConnectionId);
 
-        Cache.Set(create.gameId, lobby);
+        cache.Set(create.gameId, lobby);
 
         await Groups.AddToGroupAsync(Context.ConnectionId, lobby.name);
 
@@ -31,7 +24,7 @@ public class GameHub : Hub
 
     public async Task Join(Join join)
     {
-        if (!Cache.TryGetValue(join.gameId, out Lobby lobby))
+        if (!cache.TryGetValue(join.gameId, out Lobby? lobby))
         {
             throw new HubException("Game does not exist");
         }
@@ -45,7 +38,7 @@ public class GameHub : Hub
 
         lobby = result.ResultValue;
 
-        Cache.Set(join.gameId, lobby);
+        cache.Set(join.gameId, lobby);
 
         await Groups.AddToGroupAsync(Context.ConnectionId, lobby.name);
 
@@ -54,7 +47,7 @@ public class GameHub : Hub
 
     public async Task Move(Move move)
     {
-        if (!Cache.TryGetValue(move.gameId, out Lobby lobby))
+        if (!cache.TryGetValue(move.gameId, out Lobby? lobby))
         {
             throw new HubException("Game does not exist");
         }
@@ -68,7 +61,7 @@ public class GameHub : Hub
 
         lobby = result.ResultValue;
 
-        Cache.Set(move.gameId, lobby);
+        cache.Set(move.gameId, lobby);
 
         await SendGamestate(lobby);
     }
