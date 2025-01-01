@@ -1,8 +1,8 @@
-﻿using GameLibrary;
-using Microsoft.AspNetCore.SignalR;
+﻿using Microsoft.AspNetCore.SignalR;
 using Microsoft.Extensions.Caching.Memory;
+using Tictactoe.Engine;
 
-namespace WebsocketTestApi;
+namespace Tictactoe.Server;
 
 public class GameHub : Hub
 {

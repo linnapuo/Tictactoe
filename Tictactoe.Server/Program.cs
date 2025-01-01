@@ -1,5 +1,5 @@
 using Microsoft.AspNetCore.SignalR;
-using WebsocketTestApi;
+using Tictactoe.Server;
 
 var builder = WebApplication.CreateBuilder(args);
 

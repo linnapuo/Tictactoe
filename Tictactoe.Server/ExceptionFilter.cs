@@ -1,6 +1,6 @@
 ﻿using Microsoft.AspNetCore.SignalR;
 
-namespace WebsocketTestApi;
+namespace Tictactoe.Server;
 
 public class ExceptionFilter : IHubFilter
 {
