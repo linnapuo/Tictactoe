@@ -13,6 +13,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\Tictactoe.Engine\Tictactoe.Engine.fsproj" />
+    <ProjectReference Include="..\Tictactoe.ServiceDefaults\Tictactoe.ServiceDefaults.csproj" />
   </ItemGroup>
 
 </Project>

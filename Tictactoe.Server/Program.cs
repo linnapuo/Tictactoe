@@ -3,6 +3,8 @@ using Tictactoe.Server;
 
 var builder = WebApplication.CreateBuilder(args);
 
+builder.AddServiceDefaults();
+
 builder.Services.AddOpenApi("v1");
 builder.Services.AddCors();
 builder.Services.AddSignalR(options =>
@@ -13,6 +15,8 @@ builder.Services.AddMemoryCache();
 builder.Services.AddControllers();
 
 var app = builder.Build();
+
+app.MapDefaultEndpoints();
 
 if (app.Environment.IsDevelopment())
 {
