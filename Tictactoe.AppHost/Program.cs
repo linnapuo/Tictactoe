@@ -1,5 +1,12 @@
 var builder = DistributedApplication.CreateBuilder(args);
 
-builder.AddProject<Projects.Tictactoe_Server>("tictactoe-server");
+var server = builder.AddProject<Projects.Tictactoe_Server>("tictactoe-server");
+
+builder.AddNpmApp("tictactoe-client", "../tictactoe-client", "dev")
+    .WithReference(server)
+    .WithEnvironment("BROWSER", "none")
+    .WithHttpEndpoint(env: "VITE_PORT")
+    .WithExternalHttpEndpoints()
+    .PublishAsDockerFile();
 
 builder.Build().Run();
