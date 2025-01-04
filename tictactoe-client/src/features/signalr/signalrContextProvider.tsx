@@ -5,7 +5,12 @@ const SignalrContext = createContext({
     client: new HubConnectionBuilder().withUrl("http://localhost:3000").build()
 });
 
-export const SignalrContextProvider: FC<{client: HubConnection}> = ({client, children}) => {
+interface Props {
+    client: HubConnection,
+    children: React.ReactNode
+}
+
+export const SignalrContextProvider: FC<Props> = ({client, children}) => {
     return (
         <SignalrContext.Provider value={{client}}>
             {children}
@@ -13,7 +18,7 @@ export const SignalrContextProvider: FC<{client: HubConnection}> = ({client, chi
     );
 };
 
-type Message = {
+interface Message {
     methodName: string,
     payload: unknown
 }

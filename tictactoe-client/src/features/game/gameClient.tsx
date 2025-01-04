@@ -1,6 +1,6 @@
 import { HubConnectionBuilder, LogLevel } from "@microsoft/signalr";
 import { RootState } from "src/app/store";
-import { FC, useEffect } from "react";
+import React, { FC, useEffect } from "react";
 import { useAppDispatch } from "src/app/hooks";
 import { Create, GameState, Join, Move } from "./gameApi";
 import { gamestate } from "./gameSlice";
@@ -21,7 +21,11 @@ export const gameClientReducer = slice.reducer;
 export const selectGameClient = (state: RootState) => state.gameClient;
 export const { connected } = slice.actions;
 
-export const GameClientProvider: FC = ({children}) => {
+interface Props {
+    children: React.ReactNode
+}
+
+export const GameClientProvider: FC<Props> = ({children}) => {
     const dispatch = useAppDispatch();
 
     useEffect(() => {
@@ -29,7 +33,7 @@ export const GameClientProvider: FC = ({children}) => {
             dispatch(gamestate(state));
         });
 
-        dispatch(startClient());
+        void dispatch(startClient());
     }, [dispatch]);
 
     return (

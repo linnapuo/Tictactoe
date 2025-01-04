@@ -3,15 +3,15 @@ import React, { createContext, FC, useContext, useEffect, useMemo, useState } fr
 import Brightness4Icon from '@mui/icons-material/Brightness4';
 import Brightness7Icon from '@mui/icons-material/Brightness7';
 
-type Ctx = {
+interface Ctx {
     setColorMode: (mode: PaletteMode) => void
-};
+}
 
-type Props = {
+interface Props {
     children: React.ReactNode
-};
+}
 
-const ColorModeContext = createContext<Ctx>({ setColorMode: () => {} });
+const ColorModeContext = createContext<Ctx>({ setColorMode: () => { throw new Error("setColorMode not set"); } });
 
 export const AppThemeProvider: FC<Props> = ({children}) => {
     const prefersDarkMode = useMediaQuery("(prefers-color-scheme: dark)");
@@ -53,7 +53,7 @@ export const ToggleColorModeButton = () => {
     const toggleMode = (mode: PaletteMode) => isDarkMode(mode) ? "light" : "dark";
 
     return (
-        <IconButton onClick={() => setColorMode(toggleMode(mode))}>
+        <IconButton onClick={() => { setColorMode(toggleMode(mode)); }}>
             {isDarkMode(mode) ? <Brightness7Icon/> : <Brightness4Icon/>}
         </IconButton>
     );

@@ -55,13 +55,13 @@ importers:
         specifier: ^18.3.5
         version: 18.3.5(@types/react@18.3.18)
       '@vitejs/plugin-react-swc':
-        specifier: ^3.5.0
+        specifier: ^3.7.2
         version: 3.7.2(vite@6.0.7(@types/node@22.10.5))
       eslint:
         specifier: ^9.17.0
         version: 9.17.0
       eslint-plugin-react-hooks:
-        specifier: ^5.0.0
+        specifier: ^5.1.0
         version: 5.1.0(eslint@9.17.0)
       eslint-plugin-react-refresh:
         specifier: ^0.4.16
@@ -70,13 +70,13 @@ importers:
         specifier: ^15.14.0
         version: 15.14.0
       typescript:
-        specifier: ~5.6.2
+        specifier: ~5.6.3
         version: 5.6.3
       typescript-eslint:
-        specifier: ^8.18.2
+        specifier: ^8.19.0
         version: 8.19.0(eslint@9.17.0)(typescript@5.6.3)
       vite:
-        specifier: ^6.0.5
+        specifier: ^6.0.7
         version: 6.0.7(@types/node@22.10.5)
       vite-tsconfig-paths:
         specifier: ^5.1.4

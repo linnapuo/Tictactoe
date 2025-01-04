@@ -37,8 +37,8 @@ const EnterCodeDialog : FC<{
     
     const [open, setOpen] = useState(false);
 
-    const handleOpen = () => setOpen(true);
-    const handleClose = () => setOpen(false);
+    const handleOpen = () => { setOpen(true); };
+    const handleClose = () => { setOpen(false); };
 
     return (
         <>
@@ -59,12 +59,13 @@ const EnterCode : FC<{onCodeEntered: (code: string) => Promise<void>}> = ({onCod
 
     const clickHandler = () => {
         setLoading(true);
-        onCodeEntered(code).finally(() => setLoading(false));
+        // eslint-disable-next-line @typescript-eslint/no-floating-promises
+        onCodeEntered(code).finally(() => { setLoading(false); });
     }
 
     return (
         <>
-            <Input placeholder="Code" onChange={({target: {value}}) => setCode(value)}/>
+            <Input placeholder="Code" onChange={({target: {value}}) => { setCode(value); }}/>
             <LoadingButton onClick={clickHandler} loading={loading}>Enter</LoadingButton>
         </>
     );
@@ -78,8 +79,7 @@ const CreateGame = () => {
     const createHandler = (code: string) => 
         create({ gameId: code })
             .then(() => navigate("/lobby"))
-            // eslint-disable-next-line @typescript-eslint/no-explicit-any
-            .catch((e: any) => errorHandler(e));
+            .catch((e: unknown) => { errorHandler(e); });
 
     return (
         <EnterCodeDialog 
@@ -98,8 +98,7 @@ const JoinGame = () => {
     const joinHandler = (code: string) => 
         join({ gameId: code })
             .then(() => navigate("/lobby"))
-            // eslint-disable-next-line @typescript-eslint/no-explicit-any
-            .catch((e: any) => errorHandler(e));
+            .catch((e: unknown) => { errorHandler(e); });
 
 
     return (

@@ -19,12 +19,17 @@ export const chatClientReducer = slice.reducer;
 export const selectChatClient = (state: RootState) => state.chatClient;
 export const { connected } = slice.actions;
 
-type ChatMessage = {
+interface ChatMessage {
     name: string,
     message: string
 }
 
-export const ChatClientProvider: FC<{onMessage: (message: ChatMessage) => void}> = ({onMessage, children}) => {
+interface Props {
+    onMessage: (message: ChatMessage) => void,
+    children: React.ReactNode
+}
+
+export const ChatClientProvider: FC<Props> = ({onMessage, children}) => {
 
     const dispatch = useAppDispatch();
 
@@ -33,6 +38,7 @@ export const ChatClientProvider: FC<{onMessage: (message: ChatMessage) => void}>
     }, [onMessage]);
 
     useEffect(() => {
+        // eslint-disable-next-line @typescript-eslint/no-floating-promises
         dispatch(startClient());
     }, [dispatch]);
 
@@ -47,6 +53,7 @@ export const useChatClient = () => {
     const {sendMessage} = useSignalrClient();
 
     const send = (payload: string) => {
+        // eslint-disable-next-line @typescript-eslint/no-floating-promises
         sendMessage({methodName: "Send", payload});
     };
 

@@ -1,24 +1,24 @@
 export type SquareValue = "X" | "O" | undefined;
 
-export type Player = {
+export interface Player {
     name: string,
     isX: boolean
 }
 
-export type Move = {
+export interface Move {
     gameId: string,
     square: number
 }
 
-export type Create = {
+export interface Create {
     gameId: string
 }
 
-export type Join = {
+export interface Join {
     gameId: string
 }
 
-export type GameState = {
+export interface GameState {
     gameId: string,
     players: Player[],
     squares: SquareValue[],

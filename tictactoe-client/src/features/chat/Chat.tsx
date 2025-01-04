@@ -1,14 +1,21 @@
-import { Box, Grid, IconButton, Input, Stack, Typography } from "@mui/material";
+import { Box, IconButton, Input, Stack, Typography } from "@mui/material";
 import React, { FC, useState } from "react";
 import { ChatClientProvider, selectChatClient, useChatClient } from "./chatClient"
 import SendIcon from '@mui/icons-material/Send';
+import ClearIcon from '@mui/icons-material/Clear';
 import { useAppSelector } from "src/app/hooks";
 
-type Message = {
+interface Message {
     timestamp: Date,
     name: string,
     message: string
-};
+}
+
+interface ChatBoxProps {
+    messages: Message[],
+    addMessage: (message: Message) => void,
+    clearMessages: () => void
+}
 
 export const Chat = () => {
     const [messages, setMessages] = useState<Message[]>([]);
@@ -17,52 +24,82 @@ export const Chat = () => {
         setMessages([...messages, message]);
     };
 
+    const clearMessages = () => {
+        setMessages([]);
+    }
+
     return (
-        <ChatClientProvider onMessage={(message) => addMessage({...message, timestamp: new Date()})}>
-            <ChatBox messages={messages} addMessage={addMessage}/>
+        <ChatClientProvider onMessage={(message) => { addMessage({...message, timestamp: new Date()}); }}>
+            <ChatBox messages={messages} addMessage={addMessage} clearMessages={clearMessages}/>
         </ChatClientProvider>
     );
 }
 
-const ChatBox: FC<{messages: Message[], addMessage: (message: Message) => void}> = ({messages, addMessage}) => {
+const ChatBox: FC<ChatBoxProps> = ({messages, addMessage, clearMessages}) => {
     const [message, setMessage] = useState("");
     const { send } = useChatClient();
 
     const state = useAppSelector(selectChatClient);
 
-    const handleClick = () => {
-        addMessage({message, timestamp: new Date(), name: state.connectionId});
+    const handleSend = () => {
+        const trimmed = message.trim();
+
+        if (trimmed === "") {
+            return;
+        }
+
+        addMessage({message: trimmed, timestamp: new Date(), name: state.connectionId});
         setMessage("");
-        send(message);
+        send(trimmed);
     };
 
-    const handleEnter = (event: React.KeyboardEvent<HTMLDivElement>) => {
+    const handleKeyDown = (event: React.KeyboardEvent) => {
         if (event.key === "Enter") {
-            handleClick();
+            handleSend();
         }
     }
 
+    const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+        const value = event.target.value;
+        setMessage(value);
+    };
+
     return (
-        <Box marginTop="2vmin">
-            <Grid 
-                container
-                direction="column"
-                justifyContent="flex-start"
-                alignItems="flex-start"
-            >
-                {messages.map((value, index) => (
-                    <Typography key={index}>[{value.timestamp.toLocaleTimeString()}] {value.name}: {value.message}</Typography>
-                ))}
-            </Grid>
-            <Stack direction="row">
-                <Input 
+        <Box>
+            <Stack direction={"row"} justifyContent={"center"}>
+                <Stack
+                    direction="column"
+                    overflow={"auto"}
+                    minHeight={"10rem"}
+                    maxHeight={"10rem"}
+                    width={"100%"}
+                >
+                    {messages.map((value, index) => (
+                        <Typography
+                            alignSelf={"center"}
+                            textAlign={"start"}
+                            width={"100%"}
+                            key={index}
+                            noWrap
+                        >
+                            [{value.timestamp.toLocaleTimeString()}] {value.name}: {value.message}
+                        </Typography>
+                    ))}
+                </Stack>
+            </Stack>
+            <Stack direction="row" justifyContent={"center"}>
+                <Input
+                    fullWidth
                     placeholder="Type to chat" 
-                    onChange={({ target: { value } }) => setMessage(value)} 
+                    onChange={handleChange} 
+                    onKeyDown={handleKeyDown}
                     value={message}
-                    onKeyPress={handleEnter}
                 />
-                <IconButton onClick={handleClick}>
+                <IconButton onClick={handleSend}>
                     <SendIcon />
+                </IconButton>
+                <IconButton>
+                    <ClearIcon onClick={clearMessages}/>
                 </IconButton>
             </Stack>
         </Box>

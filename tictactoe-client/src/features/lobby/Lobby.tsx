@@ -10,6 +10,7 @@ export function Lobby() {
 
     useEffect(() => {
         if (game.players.length === 2) {
+            // eslint-disable-next-line @typescript-eslint/no-floating-promises
             navigate("/game");
         }
     }, [game, navigate]);

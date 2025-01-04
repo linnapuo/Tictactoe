@@ -6,6 +6,9 @@ import { AppBar, CircularProgress, CssBaseline, Toolbar, Typography } from '@mui
 import { ToggleColorModeButton } from 'src/app/theme';
 import { GameClientProvider, selectGameClient } from 'src/features/game/gameClient';
 import { Chat } from 'src/features/chat/Chat';
+import { useState } from 'react';
+
+const debugMode = false;
 
 const MyAppBar = () => (
   <AppBar>
@@ -18,22 +21,27 @@ const MyAppBar = () => (
   </AppBar>
 );
 
-function App() {
+export default function App() {
+  const [isDebug] = useState(debugMode);
   const {connected, error} = useAppSelector(selectGameClient);
 
   return (
     <div className="App">
+      <CssBaseline/>
       <header className="App-header">
-        <CssBaseline/>
         <RenderError/>
         <MyAppBar/>
-        <GameClientProvider>
-          {connected ? <Outlet /> : (!error ? <CircularProgress/> : <Typography variant='h3'>Failed to connect</Typography>)}
-        </GameClientProvider>
-        <Chat/>
       </header>
+      <main>
+        {isDebug ? <Outlet/> : (
+            <GameClientProvider>
+              {connected ? <Outlet /> : (!error ? <CircularProgress/> : <Typography variant='h3'>Failed to connect</Typography>)}
+            </GameClientProvider>
+        )}
+      </main>
+      <footer style={{marginTop: "2vmin"}}>
+        <Chat/>
+      </footer>
     </div>
   );
 }
-
-export default App;

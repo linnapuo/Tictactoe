@@ -7,7 +7,10 @@ import { AppRoutes } from './app/routes';
 import { AppThemeProvider } from './app/theme';
 import { BrowserRouter } from 'react-router-dom';
 
-createRoot(document.getElementById('root')!).render(
+// eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+const root = document.getElementById('root')!;
+
+createRoot(root).render(
   <StrictMode>
     <Provider store={store}>
       <AppThemeProvider>

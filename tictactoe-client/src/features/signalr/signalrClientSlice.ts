@@ -51,11 +51,13 @@ export const createClientSlice = ({name, client}: {name: string, client: HubConn
         initialState: clientstate,
         reducers: {
             connected: (_state, action) => {
+                // eslint-disable-next-line @typescript-eslint/no-unsafe-return
                 return action.payload;
             }
         },
         extraReducers: (builder) => {
             builder
+            // eslint-disable-next-line @typescript-eslint/no-empty-function
             .addCase(startClient.fulfilled, () => {})
             .addCase(startClient.rejected, (state, action) => {
                 state.error = action.error;

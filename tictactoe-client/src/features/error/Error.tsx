@@ -33,10 +33,9 @@ export const errorSlice = createSlice({
 export function useErrorHandler() {
     const dispatch = useAppDispatch();
 
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    return (error: any) => {
-        if (error.message) {
-            dispatch(errorSlice.actions.setError({message: error.message}));
+    return (error: unknown) => {
+        if (typeof error === "object" && error && "message" in error && typeof error.message === "string") {
+            dispatch(errorSlice.actions.setError({ message: error.message }));
         }
     };
 }
