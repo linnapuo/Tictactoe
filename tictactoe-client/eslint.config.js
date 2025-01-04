@@ -1,24 +1,18 @@
-import eslint from '@eslint/js';
-import tseslint from 'typescript-eslint';
+import eslint from "@eslint/js";
+import tseslint from "typescript-eslint";
+import eslintConfigPrettier from "eslint-config-prettier";
 
 export default tseslint.config(
   {
-    ignores: [
-      'dist/**/*.ts',
-      'dist/**',
-      "**/*.mjs",
-      "eslint.config.mjs",
-      "**/*.js"
-    ],
+    ignores: ["dist/**/*.ts", "dist/**", "**/*.mjs", "eslint.config.js", "**/*.js", "vite.config.ts"],
   },
   {
-    files: [
-      "src/**/*.ts", "src/**/*.tsx"
-    ]
+    files: ["src/**/*.ts", "src/**/*.tsx"],
   },
   eslint.configs.recommended,
   tseslint.configs.strictTypeChecked,
   tseslint.configs.stylisticTypeChecked,
+  eslintConfigPrettier,
   {
     languageOptions: {
       parserOptions: {
@@ -26,5 +20,5 @@ export default tseslint.config(
         tsconfigRootDir: import.meta.dirname,
       },
     },
-  }
+  },
 );

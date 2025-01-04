@@ -8,13 +8,13 @@ import { SignalrContextProvider, useSignalrClient } from "src/features/signalr/s
 import { createClientSlice } from "src/features/signalr/signalrClientSlice";
 
 const client = new HubConnectionBuilder()
-    .configureLogging(LogLevel.Debug)
-    .withUrl("https://localhost:7138/gamehub")
-.build();
+  .configureLogging(LogLevel.Debug)
+  .withUrl("https://localhost:7138/gamehub")
+  .build();
 
 const { slice, startClient } = createClientSlice({
-    name: "gameClient",
-    client
+  name: "gameClient",
+  client,
 });
 
 export const gameClientReducer = slice.reducer;
@@ -22,34 +22,30 @@ export const selectGameClient = (state: RootState) => state.gameClient;
 export const { connected } = slice.actions;
 
 interface Props {
-    children: React.ReactNode
+  children: React.ReactNode;
 }
 
-export const GameClientProvider: FC<Props> = ({children}) => {
-    const dispatch = useAppDispatch();
+export const GameClientProvider: FC<Props> = ({ children }) => {
+  const dispatch = useAppDispatch();
 
-    useEffect(() => {
-        client.on("Gamestate", (state: GameState) => {
-            dispatch(gamestate(state));
-        });
+  useEffect(() => {
+    client.on("Gamestate", (state: GameState) => {
+      dispatch(gamestate(state));
+    });
 
-        void dispatch(startClient());
-    }, [dispatch]);
+    void dispatch(startClient());
+  }, [dispatch]);
 
-    return (
-        <SignalrContextProvider client={client}>
-            {children}
-        </SignalrContextProvider>
-    );
+  return <SignalrContextProvider client={client}>{children}</SignalrContextProvider>;
 };
 
 export const useGameClient = () => {
-    const {sendMessage} = useSignalrClient();
+  const { sendMessage } = useSignalrClient();
 
-    return {
-        startClient,
-        create: (payload: Create) => sendMessage({methodName: "Create", payload}),
-        join: (payload: Join) => sendMessage({methodName: "Join", payload}),
-        move: (payload: Move) => sendMessage({methodName: "Move", payload})
-    };
+  return {
+    startClient,
+    create: (payload: Create) => sendMessage({ methodName: "Create", payload }),
+    join: (payload: Join) => sendMessage({ methodName: "Join", payload }),
+    move: (payload: Move) => sendMessage({ methodName: "Move", payload }),
+  };
 };

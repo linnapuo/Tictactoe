@@ -1,26 +1,26 @@
 export type SquareValue = "X" | "O" | undefined;
 
 export interface Player {
-    name: string,
-    isX: boolean
+  name: string;
+  isX: boolean;
 }
 
 export interface Move {
-    gameId: string,
-    square: number
+  gameId: string;
+  square: number;
 }
 
 export interface Create {
-    gameId: string
+  gameId: string;
 }
 
 export interface Join {
-    gameId: string
+  gameId: string;
 }
 
 export interface GameState {
-    gameId: string,
-    players: Player[],
-    squares: SquareValue[],
-    xIsNext: boolean
+  gameId: string;
+  players: Player[];
+  squares: SquareValue[];
+  xIsNext: boolean;
 }
