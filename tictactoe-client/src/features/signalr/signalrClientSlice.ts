@@ -1,5 +1,5 @@
 import { HubConnection } from "@microsoft/signalr";
-import { createAction, createAsyncThunk, createSlice, PayloadAction, SerializedError } from "@reduxjs/toolkit";
+import { createAction, createAsyncThunk, createSlice, SerializedError } from "@reduxjs/toolkit";
 
 interface ClientState {
     connected: boolean,
@@ -50,13 +50,13 @@ export const createClientSlice = ({name, client}: {name: string, client: HubConn
         name,
         initialState: clientstate,
         reducers: {
-            connected: (state, action: PayloadAction<ClientState>) => {
+            connected: (_state, action) => {
                 return action.payload;
             }
         },
         extraReducers: (builder) => {
-            builder.addCase(startClient.fulfilled, (state, action) => {
-            })
+            builder
+            .addCase(startClient.fulfilled, () => {})
             .addCase(startClient.rejected, (state, action) => {
                 state.error = action.error;
             });

@@ -78,6 +78,7 @@ const CreateGame = () => {
     const createHandler = (code: string) => 
         create({ gameId: code })
             .then(() => navigate("/lobby"))
+            // eslint-disable-next-line @typescript-eslint/no-explicit-any
             .catch((e: any) => errorHandler(e));
 
     return (
@@ -97,6 +98,7 @@ const JoinGame = () => {
     const joinHandler = (code: string) => 
         join({ gameId: code })
             .then(() => navigate("/lobby"))
+            // eslint-disable-next-line @typescript-eslint/no-explicit-any
             .catch((e: any) => errorHandler(e));
 
 

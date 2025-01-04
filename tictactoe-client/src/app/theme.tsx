@@ -1,11 +1,19 @@
 import { createTheme, IconButton, PaletteMode, ThemeProvider, useMediaQuery, useTheme } from "@mui/material";
-import { createContext, FC, useContext, useEffect, useMemo, useState } from "react";
+import React, { createContext, FC, useContext, useEffect, useMemo, useState } from "react";
 import Brightness4Icon from '@mui/icons-material/Brightness4';
 import Brightness7Icon from '@mui/icons-material/Brightness7';
 
-const ColorModeContext = createContext({ setColorMode: (mode: PaletteMode) => {} });
+type Ctx = {
+    setColorMode: (mode: PaletteMode) => void
+};
 
-export const AppThemeProvider: FC = ({children}) => {
+type Props = {
+    children: React.ReactNode
+};
+
+const ColorModeContext = createContext<Ctx>({ setColorMode: () => {} });
+
+export const AppThemeProvider: FC<Props> = ({children}) => {
     const prefersDarkMode = useMediaQuery("(prefers-color-scheme: dark)");
     const [mode, setMode] = useState<PaletteMode>(prefersDarkMode ? "dark" : "light");
 

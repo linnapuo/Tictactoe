@@ -93,6 +93,7 @@ export function Game() {
         move({
             gameId: game.gameId,
             square
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
         }).catch((e: any) => errorHandler(e));
 
     return (
