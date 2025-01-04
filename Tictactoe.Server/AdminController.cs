@@ -5,10 +5,11 @@ using Tictactoe.Engine;
 namespace Tictactoe.Server;
 
 [ApiController]
+[Route("[controller]/[action]")]
 public class AdminController(IMemoryCache cache) : ControllerBase
 {
-    [HttpGet("/admin/lobbies")]
-    public IActionResult GetLobbies()
+    [HttpGet]
+    public IActionResult Lobbies()
     {
         if (cache is not MemoryCache memoryCache)
         {
@@ -22,5 +23,17 @@ public class AdminController(IMemoryCache cache) : ControllerBase
             .ToList();
 
         return Ok(lobbies);
+    }
+
+    [HttpDelete("{gameId}")]
+    public IActionResult Lobbies(string gameId)
+    {
+        if (cache is not MemoryCache memoryCache)
+        {
+            return NoContent();
+        }
+
+        memoryCache.Remove(gameId);
+        return Ok();
     }
 }

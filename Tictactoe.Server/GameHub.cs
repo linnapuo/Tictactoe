@@ -17,7 +17,7 @@ public class GameHub(IMemoryCache cache) : Hub
 
         cache.Set(create.gameId, lobby);
 
-        await Groups.AddToGroupAsync(Context.ConnectionId, lobby.name);
+        await Groups.AddToGroupAsync(Context.ConnectionId, lobby.gameId);
 
         await SendGamestate(lobby);
     }
@@ -40,7 +40,7 @@ public class GameHub(IMemoryCache cache) : Hub
 
         cache.Set(join.gameId, lobby);
 
-        await Groups.AddToGroupAsync(Context.ConnectionId, lobby.name);
+        await Groups.AddToGroupAsync(Context.ConnectionId, lobby.gameId);
 
         await SendGamestate(lobby);
     }
@@ -68,10 +68,10 @@ public class GameHub(IMemoryCache cache) : Hub
 
     private async Task SendGamestate(Lobby lobby)
     {
-        var gamestate = new Gamestate(lobby.name, lobby.game.squares, lobby.players, lobby.game.xIsNext);
+        var gamestate = new Gamestate(lobby.gameId, lobby.game.squares, lobby.players, lobby.game.xIsNext);
 
         await Task.Delay(500);
 
-        await Clients.Group(lobby.name).SendAsync(nameof(Gamestate), gamestate);
+        await Clients.Group(lobby.gameId).SendAsync(nameof(Gamestate), gamestate);
     }
 }

@@ -13,6 +13,7 @@ builder.Services.AddSignalR(options =>
 });
 builder.Services.AddMemoryCache();
 builder.Services.AddControllers();
+builder.Services.AddRouting(options => options.LowercaseUrls = true);
 
 var app = builder.Build();
 
@@ -29,11 +30,14 @@ if (app.Environment.IsDevelopment())
 
 app.UseHttpsRedirection();
 
+var allowedOrigins = app.Configuration.GetValue<string>("AllowedOrigins")?.Split(",")
+    ?? throw new ArgumentException("AllowedOrigins");
+
 app.UseCors(builder =>
 {
-    builder.WithOrigins("http://localhost:3000")
+    builder.WithOrigins(allowedOrigins)
         .AllowAnyHeader()
-        .WithMethods("GET", "POST")
+        .AllowAnyMethod()
         .AllowCredentials();
 });
 

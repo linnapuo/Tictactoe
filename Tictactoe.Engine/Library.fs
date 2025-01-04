@@ -11,7 +11,7 @@ type Player = {
 }
 
 type Lobby = {
-    name: string
+    gameId: string
     players: Player list
     game: Game
 }
@@ -59,7 +59,7 @@ module Funcs =
 
     let CreateGame (create: Create, connectionId) = 
         {
-        name = create.gameId
+        gameId = create.gameId
         players = [{name = connectionId; isX = true}]
         game = {xIsNext = true; squares = Array.zeroCreate 9}
         }
