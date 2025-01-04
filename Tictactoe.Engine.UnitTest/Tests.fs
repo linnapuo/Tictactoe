@@ -8,7 +8,7 @@ let ``CreateGame should return ok`` () =
 
     let create: Create = { gameId = "1" }
     
-    let lobby = Funcs.CreateGame(create, "connection-1")
+    let lobby = Funcs.CreateGame create "connection-1"
 
     let expected: Lobby = {
         gameId = "1"
@@ -27,7 +27,7 @@ let ``JoinGame should return ok`` () =
         game = { xIsNext = true; squares = Array.zeroCreate 9 }
     }
 
-    let result = Funcs.JoinGame(lobby, "connection-2")
+    let result = Funcs.JoinGame lobby "connection-2"
 
     let expected: Result<Lobby, string> = Ok {
         gameId = "1"
@@ -51,7 +51,7 @@ let ``MakeMove should return ok`` () =
         game = { xIsNext = true; squares = Array.zeroCreate 9 }
     }
 
-    let result = Funcs.MakeMove(move, lobby, "connection-1")
+    let result = Funcs.MakeMove move lobby "connection-1"
 
     let expected: Result<Lobby, string> = Ok {
         gameId = "1"
@@ -60,7 +60,6 @@ let ``MakeMove should return ok`` () =
     }
 
     Assert.Equal(expected, result)
-
 
 [<Fact>]
 let ``MakeMove should return not your turn`` () =
@@ -76,8 +75,28 @@ let ``MakeMove should return not your turn`` () =
         game = { xIsNext = false; squares = [|Some "X"; None; None; None; None; None; None; None; None;|] }
     }
 
-    let result = Funcs.MakeMove(move, lobby, "connection-1")
+    let result = Funcs.MakeMove move lobby "connection-1"
 
     let expected: Result<Lobby, string> = Error "Not your turn"
+
+    Assert.Equal(expected, result)
+
+[<Fact>]
+let ``MakeMove should not allow to make invalid move`` () =
+
+    let move: Move = {
+        gameId = "1"
+        square = 0
+    }
+
+    let lobby: Lobby = {
+        gameId = "1"
+        players = [{ name = "connection-1"; isX = true }; { name = "connection-2"; isX = false }]
+        game = { xIsNext = true; squares = [|Some "X"; None; None; None; None; None; None; None; None;|] }
+    }
+
+    let result = Funcs.MakeMove move lobby "connection-1"
+
+    let expected: Result<Lobby, string> = Error "Invalid move"
 
     Assert.Equal(expected, result)

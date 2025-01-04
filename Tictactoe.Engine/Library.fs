@@ -50,40 +50,55 @@ module Funcs =
     ]
 
     let private checkWinner (squares: string option[]) = 
-        lines 
-     |> Seq.tryFind(fun (a,b,c) -> squares[a].IsSome && squares[a] = squares[b] && squares[a] = squares[c]) 
-     |> Option.map(fun (a,_,_) -> squares[a])
+        lines
+        |> Seq.tryFind(fun (a,b,c) -> squares[a].IsSome && squares[a] = squares[b] && squares[a] = squares[c]) 
+        |> Option.map(fun (a,_,_) -> squares[a])
 
-    let private GameOver (squares: string option[]) =
-        checkWinner squares |> Option.isSome
-
-    let CreateGame (create: Create, connectionId) = 
+    let CreateGame (create: Create) connectionId = 
         {
         gameId = create.gameId
         players = [{name = connectionId; isX = true}]
         game = {xIsNext = true; squares = Array.zeroCreate 9}
         }
 
-    let JoinGame (lobby: Lobby, connectionId) = 
+    let JoinGame (lobby: Lobby) connectionId = 
         match lobby.players.Length = 2 with
         | true -> Error "Game has already started"
         | false -> Ok ()
-       |> Result.map(fun _ -> { lobby with players = lobby.players @ [{name = connectionId; isX = false}] })
+        |> Result.map(fun _ -> { lobby with players = lobby.players @ [{name = connectionId; isX = false}] })
 
-    let private validatePlayersTurn (player, lobby) = 
+    let private validatePlayersTurn lobby player = 
         match player.isX && not lobby.game.xIsNext || not player.isX && lobby.game.xIsNext with
         | true -> Error "Not your turn"
-        | false -> Ok (player, lobby)
+        | false -> Ok lobby
 
-    let MakeMove (move, lobby, connectionId) = 
-        match GameOver lobby.game.squares with
-        | true -> Error "Game over"
-        | false -> 
-            lobby.players
-         |> List.find(fun p -> p.name = connectionId)
-         |> fun player -> validatePlayersTurn (player, lobby)
-         |> Result.map(fun (player, lobby) -> 
-                lobby.game.squares[move.square] <- if player.isX then Some "X" else Some "O"
-                lobby.game.xIsNext <- not lobby.game.xIsNext
-                lobby
-            )
+    let private validateMove lobby move = 
+        match move.square < 0 || move.square > 8 || lobby.game.squares[move.square].IsSome with
+        | true -> Error "Invalid move"
+        | false -> Ok lobby
+
+    let private gameOver lobby =
+        let matcher some = if not some then Ok lobby else Error "Game over"
+        checkWinner lobby.game.squares |> Option.isSome |> matcher
+
+    let MakeMove move (lobby: Lobby) connectionId = 
+    
+        let player = lobby.players |> List.find(fun p -> p.name = connectionId)
+
+        let lobbyPlayer lobby = lobby, player
+        let lobbyMove lobby = lobby, move
+        
+        let myMove (lobby, player) = validatePlayersTurn lobby player
+        let legalMove (lobby, move) = validateMove lobby move
+
+        let doMove (lobby, player) =
+            lobby.game.squares[move.square] <- if player.isX then Some "X" else Some "O"
+            lobby.game.xIsNext <- not lobby.game.xIsNext
+            lobby
+
+        gameOver lobby
+        |> Result.map lobbyPlayer
+        |> Result.bind myMove
+        |> Result.map lobbyMove
+        |> Result.bind legalMove
+        |> Result.map (lobbyPlayer >> doMove)
