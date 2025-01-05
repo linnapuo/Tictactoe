@@ -9,4 +9,6 @@ builder.AddNpmApp("tictactoe-client", "../tictactoe-client", "dev")
     .WithExternalHttpEndpoints()
     .PublishAsDockerFile();
 
+builder.AddProject<Projects.Tictactoe_Authentication>("tictactoe-authentication");
+
 builder.Build().Run();
