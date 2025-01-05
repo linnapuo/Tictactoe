@@ -9,7 +9,7 @@ import { createClientSlice } from "src/features/signalr/signalrClientSlice";
 
 const client = new HubConnectionBuilder()
   .configureLogging(LogLevel.Debug)
-  .withUrl("https://localhost:7138/gamehub")
+  .withUrl(`${import.meta.env.VITE_API_BASE_URL}/gamehub`)
   .build();
 
 const { slice, startClient } = createClientSlice({
