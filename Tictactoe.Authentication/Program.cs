@@ -1,6 +1,5 @@
 using Microsoft.AspNetCore.Components.Authorization;
 using Microsoft.AspNetCore.Identity;
-using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
@@ -17,6 +16,8 @@ builder.AddServiceDefaults();
 
 builder.Services.AddSwaggerGen(options =>
 {
+    options.ResolveConflictingActions(descriptions => descriptions.First());
+
     options.AddSecurityDefinition("OpenID Connect", new OpenApiSecurityScheme
     {
         Type = SecuritySchemeType.OpenIdConnect,
@@ -94,7 +95,7 @@ builder.Services.AddOpenIddict()
 .AddCore(options =>
 {
     options.UseEntityFrameworkCore()
-           .UseDbContext<IdentityDbContext>();
+           .UseDbContext<ApplicationDbContext>();
 
     options.UseQuartz(builder =>
     {
