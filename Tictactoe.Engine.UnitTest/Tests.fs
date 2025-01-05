@@ -1,4 +1,4 @@
-﻿module Tictactoe.Engine.UnitTest.Tests
+module Tictactoe.Engine.UnitTest.Tests
 
 open Tictactoe.Engine
 open Xunit

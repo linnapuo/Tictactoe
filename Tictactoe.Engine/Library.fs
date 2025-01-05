@@ -1,4 +1,4 @@
-﻿namespace Tictactoe.Engine
+namespace Tictactoe.Engine
 
 type Game = {
     mutable xIsNext: bool
