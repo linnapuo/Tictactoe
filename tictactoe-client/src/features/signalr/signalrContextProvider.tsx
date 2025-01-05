@@ -2,7 +2,7 @@ import { HubConnection, HubConnectionBuilder } from "@microsoft/signalr";
 import { createContext, FC, useContext } from "react";
 
 const SignalrContext = createContext({
-  client: new HubConnectionBuilder().withUrl("http://localhost:3000").build(),
+  client: new HubConnectionBuilder().withUrl("placeholder").build(),
 });
 
 interface Props {

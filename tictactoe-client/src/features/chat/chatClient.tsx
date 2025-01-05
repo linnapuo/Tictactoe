@@ -5,10 +5,15 @@ import { SignalrContextProvider, useSignalrClient } from "src/features/signalr/s
 import { FC, useEffect } from "react";
 import { useAppDispatch } from "src/app/hooks";
 
-const client = new HubConnectionBuilder()
-  .configureLogging(LogLevel.Debug)
-  .withUrl("https://localhost:7138/chathub")
-  .build();
+const config = {
+  url: `${import.meta.env.VITE_API_BASE_URL}/chathub`,
+  endpoints: {
+    receive: "Receive",
+    send: "Send",
+  },
+};
+
+const client = new HubConnectionBuilder().configureLogging(LogLevel.Debug).withUrl(config.url).build();
 
 export const { slice, startClient } = createClientSlice({
   name: "chatClient",
@@ -33,7 +38,7 @@ export const ChatClientProvider: FC<Props> = ({ onMessage, children }) => {
   const dispatch = useAppDispatch();
 
   useEffect(() => {
-    client.on("Receive", onMessage);
+    client.on(config.endpoints.receive, onMessage);
   }, [onMessage]);
 
   useEffect(() => {
@@ -49,7 +54,7 @@ export const useChatClient = () => {
 
   const send = (payload: string) => {
     // eslint-disable-next-line @typescript-eslint/no-floating-promises
-    sendMessage({ methodName: "Send", payload });
+    sendMessage({ methodName: config.endpoints.send, payload });
   };
 
   return {

@@ -69,9 +69,6 @@ public class GameHub(IMemoryCache cache) : Hub
     private async Task SendGamestate(Lobby lobby)
     {
         var gamestate = new Gamestate(lobby.gameId, lobby.game.squares, lobby.players, lobby.game.xIsNext);
-
-        await Task.Delay(500);
-
         await Clients.Group(lobby.gameId).SendAsync(nameof(Gamestate), gamestate);
     }
 }

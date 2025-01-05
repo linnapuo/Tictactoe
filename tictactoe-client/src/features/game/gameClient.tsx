@@ -7,10 +7,17 @@ import { gamestate } from "./gameSlice";
 import { SignalrContextProvider, useSignalrClient } from "src/features/signalr/signalrContextProvider";
 import { createClientSlice } from "src/features/signalr/signalrClientSlice";
 
-const client = new HubConnectionBuilder()
-  .configureLogging(LogLevel.Debug)
-  .withUrl(`${import.meta.env.VITE_API_BASE_URL}/gamehub`)
-  .build();
+const config = {
+  url: `${import.meta.env.VITE_API_BASE_URL}/gamehub`,
+  endpoints: {
+    gameState: "GameState",
+    create: "Create",
+    join: "Join",
+    move: "Move",
+  },
+};
+
+const client = new HubConnectionBuilder().configureLogging(LogLevel.Debug).withUrl(config.url).build();
 
 const { slice, startClient } = createClientSlice({
   name: "gameClient",
@@ -29,11 +36,12 @@ export const GameClientProvider: FC<Props> = ({ children }) => {
   const dispatch = useAppDispatch();
 
   useEffect(() => {
-    client.on("Gamestate", (state: GameState) => {
+    client.on(config.endpoints.gameState, (state: GameState) => {
       dispatch(gamestate(state));
     });
 
-    void dispatch(startClient());
+    // eslint-disable-next-line @typescript-eslint/no-floating-promises
+    dispatch(startClient());
   }, [dispatch]);
 
   return <SignalrContextProvider client={client}>{children}</SignalrContextProvider>;
@@ -44,8 +52,8 @@ export const useGameClient = () => {
 
   return {
     startClient,
-    create: (payload: Create) => sendMessage({ methodName: "Create", payload }),
-    join: (payload: Join) => sendMessage({ methodName: "Join", payload }),
-    move: (payload: Move) => sendMessage({ methodName: "Move", payload }),
+    create: (payload: Create) => sendMessage({ methodName: config.endpoints.create, payload }),
+    join: (payload: Join) => sendMessage({ methodName: config.endpoints.join, payload }),
+    move: (payload: Move) => sendMessage({ methodName: config.endpoints.move, payload }),
   };
 };
