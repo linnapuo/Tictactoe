@@ -7,8 +7,9 @@ import { ToggleColorModeButton } from "src/app/theme";
 import { GameClientProvider, selectGameClient } from "src/features/game/gameClient";
 import { Chat } from "src/features/chat/Chat";
 import { useState } from "react";
+import { AccountButton } from "src/features/account/Login";
 
-const debugMode = false;
+const debugMode = true;
 
 const MyAppBar = () => (
   <AppBar>
@@ -17,6 +18,7 @@ const MyAppBar = () => (
       <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
         Tic-Tac-Toe
       </Typography>
+      <AccountButton />
     </Toolbar>
   </AppBar>
 );

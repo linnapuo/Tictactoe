@@ -42,7 +42,6 @@ export const ChatClientProvider: FC<Props> = ({ onMessage, children }) => {
   }, [onMessage]);
 
   useEffect(() => {
-    // eslint-disable-next-line @typescript-eslint/no-floating-promises
     dispatch(startClient());
   }, [dispatch]);
 
@@ -53,7 +52,6 @@ export const useChatClient = () => {
   const { sendMessage } = useSignalrClient();
 
   const send = (payload: string) => {
-    // eslint-disable-next-line @typescript-eslint/no-floating-promises
     sendMessage({ methodName: config.endpoints.send, payload });
   };
 

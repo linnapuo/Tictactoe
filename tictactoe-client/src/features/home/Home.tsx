@@ -62,7 +62,7 @@ const EnterCode: FC<{ onCodeEntered: (code: string) => Promise<void> }> = ({ onC
 
   const clickHandler = () => {
     setLoading(true);
-    // eslint-disable-next-line @typescript-eslint/no-floating-promises
+
     onCodeEntered(code).finally(() => {
       setLoading(false);
     });

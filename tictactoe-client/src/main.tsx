@@ -7,7 +7,6 @@ import { AppRoutes } from "./app/routes";
 import { AppThemeProvider } from "./app/theme";
 import { BrowserRouter } from "react-router-dom";
 
-// eslint-disable-next-line @typescript-eslint/no-non-null-assertion
 const root = document.getElementById("root")!;
 
 createRoot(root).render(

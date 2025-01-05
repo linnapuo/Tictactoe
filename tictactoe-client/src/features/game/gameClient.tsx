@@ -40,7 +40,6 @@ export const GameClientProvider: FC<Props> = ({ children }) => {
       dispatch(gamestate(state));
     });
 
-    // eslint-disable-next-line @typescript-eslint/no-floating-promises
     dispatch(startClient());
   }, [dispatch]);
 

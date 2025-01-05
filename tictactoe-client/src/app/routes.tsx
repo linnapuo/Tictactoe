@@ -1,5 +1,6 @@
 import { Route, Routes } from "react-router-dom";
 import App from "src/App";
+import Login from "src/features/account/Login";
 import { Game } from "src/features/game/Game";
 import { Home } from "src/features/home/Home";
 import { Lobby } from "src/features/lobby/Lobby";
@@ -12,6 +13,7 @@ export function AppRoutes() {
         <Route index element={<Home />} />
         <Route path="game" element={<Game />} />
         <Route path="lobby" element={<Lobby />} />
+        <Route path="login" element={<Login />} />
       </Route>
     </Routes>
   );

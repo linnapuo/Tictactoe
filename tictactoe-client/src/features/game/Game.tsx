@@ -36,7 +36,7 @@ function Square(props: SquareProps) {
 
   const handleClick = () => {
     setLoading(true);
-    // eslint-disable-next-line @typescript-eslint/no-floating-promises
+
     props.onClick().finally(() => {
       setLoading(false);
     });
