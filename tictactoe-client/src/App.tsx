@@ -9,7 +9,7 @@ import { Chat } from "src/features/chat/Chat";
 import { useState } from "react";
 import { AccountButton } from "src/features/account/Login";
 
-const debugMode = true;
+const debugMode = false;
 
 const MyAppBar = () => (
   <AppBar>
