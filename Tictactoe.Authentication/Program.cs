@@ -134,8 +134,8 @@ builder.Services.AddOpenIddict()
     //       .AddGitHub(config =>
     //       {
     //           config
-    //           .SetClientId("Ov23lihh8KZ7oZxUaP5J")
-    //           .SetClientSecret("525d2293a518f90ae41ba25df8317e3b67ceb428")
+    //           .SetClientId("")
+    //           .SetClientSecret("")
     //           .SetRedirectUri("https://localhost:7180/swagger/oauth2-redirect.html");
     //       });
 })
