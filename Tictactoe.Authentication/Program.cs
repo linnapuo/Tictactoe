@@ -144,7 +144,8 @@ builder.Services.AddOpenIddict()
     options.SetAuthorizationEndpointUris("connect/authorize")
            .SetEndSessionEndpointUris("connect/logout")
            .SetTokenEndpointUris("connect/token")
-           .SetUserInfoEndpointUris("connect/userinfo");
+           .SetUserInfoEndpointUris("connect/userinfo")
+           .SetIntrospectionEndpointUris("connect/introspect");
 
     options.RegisterScopes(Scopes.Email, Scopes.Profile, Scopes.Roles);
 
@@ -184,11 +185,10 @@ builder.Services.AddCors(options =>
 {
     options.AddDefaultPolicy(policy =>
     {
-        policy.WithOrigins("http://localhost:5173")
+        policy.WithOrigins("http://localhost:5173", "https://localhost:7138")
               .AllowAnyHeader()
               .AllowAnyMethod()
-              .AllowCredentials()
-              .SetIsOriginAllowedToAllowWildcardSubdomains();
+              .AllowCredentials();
     });
 });
 
@@ -285,6 +285,19 @@ async Task SeedAsync()
             ClientType = ClientTypes.Confidential
         });
     }
+    if (await manager.FindByClientIdAsync("tictactoe_server_1") is null)
+    {
+        await manager.CreateAsync(new OpenIddictApplicationDescriptor
+        {
+            ClientId = "tictactoe_server_1",
+            ClientSecret = "tictactoe_server_1",
+            Permissions =
+            {
+                Permissions.Endpoints.Introspection
+            },
+            ClientType = ClientTypes.Confidential
+        });
+    }
     if (await manager.FindByClientIdAsync("react") is null)
     {
         await manager.CreateAsync(new OpenIddictApplicationDescriptor
@@ -341,6 +354,53 @@ async Task SeedAsync()
                 Requirements.Features.ProofKeyForCodeExchange
             },
             ConsentType = ConsentTypes.Implicit
+        });
+    }
+    if (await manager.FindByClientIdAsync("swagger-tictactoe-server") is null)
+    {
+        await manager.CreateAsync(new OpenIddictApplicationDescriptor
+        {
+            ClientId = "swagger-tictactoe-server",
+            RedirectUris =
+            {
+                new Uri("https://localhost:7138/swagger/oauth2-redirect.html")
+            },
+            PostLogoutRedirectUris =
+            {
+                new Uri("https://localhost:7138/swagger/oauth2-redirect.html")
+            },
+            Permissions =
+            {
+                Permissions.Endpoints.Authorization,
+                Permissions.Endpoints.Token,
+                Permissions.Endpoints.EndSession,
+                Permissions.GrantTypes.AuthorizationCode,
+                Permissions.ResponseTypes.Code
+            },
+            ClientType = ClientTypes.Public,
+            Requirements =
+            {
+                Requirements.Features.ProofKeyForCodeExchange
+            },
+            ConsentType = ConsentTypes.Implicit
+        });
+    }
+    if (await manager.FindByClientIdAsync("swagger-tictactoe") is null)
+    {
+        await manager.CreateAsync(new OpenIddictApplicationDescriptor
+        {
+            ClientId = "swagger-tictactoe",
+            ClientSecret = "swagger-tictactoe",
+            RedirectUris =
+            {
+                new Uri("https://localhost:7138/swagger/oauth2-redirect.html")
+            },
+            Permissions =
+            {
+                Permissions.Endpoints.Token,
+                Permissions.GrantTypes.ClientCredentials
+            },
+            ClientType = ClientTypes.Confidential
         });
     }
 }

@@ -18,6 +18,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\Tictactoe.Authentication\Tictactoe.Authentication.csproj" />
+    <ProjectReference Include="..\Tictactoe.Gateway\Tictactoe.Gateway.csproj" />
     <ProjectReference Include="..\Tictactoe.Server\Tictactoe.Server.csproj" />
   </ItemGroup>
     

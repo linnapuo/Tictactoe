@@ -1,12 +1,50 @@
 using Microsoft.AspNetCore.SignalR;
+using Microsoft.OpenApi.Models;
+using OpenIddict.Validation.AspNetCore;
 using Tictactoe.Server;
 
 var builder = WebApplication.CreateBuilder(args);
 
 builder.AddServiceDefaults();
 
-builder.Services.AddOpenApi("v1");
-builder.Services.AddCors();
+//builder.Services.AddOpenApi("v1");
+
+builder.Services.AddSwaggerGen(options =>
+{
+    options.ResolveConflictingActions(descriptions => descriptions.First());
+
+    options.AddSecurityDefinition("OpenID Connect", new OpenApiSecurityScheme
+    {
+        Type = SecuritySchemeType.OpenIdConnect,
+        OpenIdConnectUrl = new Uri("https://localhost:7180/.well-known/openid-configuration", UriKind.Absolute)
+    });
+
+    options.AddSecurityRequirement(new OpenApiSecurityRequirement
+    {
+        {
+            new OpenApiSecurityScheme
+            {
+                Type = SecuritySchemeType.OpenIdConnect,
+                Reference = new OpenApiReference
+                {
+                    Type = ReferenceType.SecurityScheme,
+                    Id = "OpenID Connect"
+                }
+            },
+            new List<string>()
+        }
+    });
+});
+
+builder.Services.AddCors(options =>
+{
+    options.AddDefaultPolicy(policy =>
+    {
+        policy.WithOrigins("http://localhost:5173")
+              .AllowAnyHeader()
+              .AllowAnyMethod();
+    });
+});
 builder.Services.AddSignalR(options =>
 {
     options.AddFilter<ExceptionFilter>();
@@ -15,31 +53,46 @@ builder.Services.AddMemoryCache();
 builder.Services.AddControllers();
 builder.Services.AddRouting(options => options.LowercaseUrls = true);
 
+builder.Services.AddOpenIddict().AddValidation(options =>
+ {
+     // Note: the validation handler uses OpenID Connect discovery
+     // to retrieve the issuer signing keys used to validate tokens.
+     options.SetIssuer("https://localhost:7180/");
+     //options.AddAudiences("tictactoe_server_1");
+
+     options.UseIntrospection()
+        .SetClientId("tictactoe_server_1")
+        .SetClientSecret("tictactoe_server_1");
+
+     // Register the System.Net.Http integration.
+     options.UseSystemNetHttp();
+
+     // Register the ASP.NET Core host.
+     options.UseAspNetCore();
+ });
+
+builder.Services.AddAuthentication(OpenIddictValidationAspNetCoreDefaults.AuthenticationScheme);
+builder.Services.AddAuthorization();
+
 var app = builder.Build();
 
 app.MapDefaultEndpoints();
 
 if (app.Environment.IsDevelopment())
 {
-    app.MapOpenApi("/openapi/v1.json");
+    app.UseSwagger();
     app.UseSwaggerUI(options =>
     {
-        options.SwaggerEndpoint("/openapi/v1.json", "v1");
+        options.OAuthUsePkce();
     });
 }
 
 app.UseHttpsRedirection();
 
-var allowedOrigins = app.Configuration.GetValue<string>("AllowedOrigins")?.Split(",")
-    ?? throw new ArgumentException("AllowedOrigins");
+app.UseAuthentication();
+app.UseAuthorization();
 
-app.UseCors(builder =>
-{
-    builder.WithOrigins(allowedOrigins)
-        .AllowAnyHeader()
-        .AllowAnyMethod()
-        .AllowCredentials();
-});
+app.UseCors();
 
 app.MapHub<GameHub>("/gamehub");
 app.MapHub<ChatHub>("/chathub");

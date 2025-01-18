@@ -11,4 +11,6 @@ builder.AddNpmApp("tictactoe-client", "../tictactoe-client", "dev")
 
 builder.AddProject<Projects.Tictactoe_Authentication>("tictactoe-authentication");
 
+builder.AddProject<Projects.Tictactoe_Gateway>("tictactoe-gateway");
+
 builder.Build().Run();
