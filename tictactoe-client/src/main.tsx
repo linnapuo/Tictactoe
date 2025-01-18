@@ -1,19 +1,32 @@
 import { StrictMode } from "react";
 import { createRoot } from "react-dom/client";
-import "./index.css";
-import { store } from "./app/store";
+import "src/index.css";
 import { Provider } from "react-redux";
-import { AppRoutes } from "./app/routes";
-import { AppThemeProvider } from "./app/theme";
+import { AppThemeProvider } from "src/app/theme";
+import { AuthProvider, AuthProviderProps } from "react-oidc-context";
 import { BrowserRouter } from "react-router-dom";
+import { AppRoutes } from "src/app/routes";
+import { CssBaseline } from "@mui/material";
+import { store } from "src/app/store";
 
-const root = document.getElementById("root")!;
+const oidcConfig: AuthProviderProps = {
+  authority: "https://localhost:7180",
+  redirect_uri: "http://localhost:5173",
+  client_id: "react",
+  post_logout_redirect_uri: "http://localhost:5173",
+  onSigninCallback: () => history.replaceState({}, document.title, window.location.pathname),
+};
 
-createRoot(root).render(
+createRoot(document.getElementById("root")!).render(
   <StrictMode>
+    <CssBaseline />
     <Provider store={store}>
       <AppThemeProvider>
-        <BrowserRouter children={<AppRoutes />} />
+        <AuthProvider {...oidcConfig}>
+          <BrowserRouter>
+            <AppRoutes />
+          </BrowserRouter>
+        </AuthProvider>
       </AppThemeProvider>
     </Provider>
   </StrictMode>,

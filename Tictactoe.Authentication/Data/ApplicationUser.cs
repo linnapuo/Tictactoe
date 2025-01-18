@@ -6,4 +6,3 @@ namespace Tictactoe.Authentication.Data;
 public class ApplicationUser : IdentityUser
 {
 }
-
