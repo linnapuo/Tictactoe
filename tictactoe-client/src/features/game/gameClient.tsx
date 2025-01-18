@@ -1,8 +1,8 @@
 import { HubConnectionBuilder, LogLevel } from "@microsoft/signalr";
 import { RootState } from "src/app/store";
-import React, { FC, useEffect } from "react";
+import React, { useEffect } from "react";
 import { useAppDispatch } from "src/app/hooks";
-import { Create, GameState, Join, Move } from "./gameApi";
+import { Create, GameState, Join, Move, Spectate } from "./gameApi";
 import { gamestate } from "./gameSlice";
 import { SignalrContextProvider, useSignalrClient } from "src/features/signalr/signalrContextProvider";
 import { createClientSlice } from "src/features/signalr/signalrClientSlice";
@@ -14,6 +14,7 @@ const config = {
     create: "Create",
     join: "Join",
     move: "Move",
+    spectate: "Spectate",
   },
 };
 
@@ -32,7 +33,7 @@ interface Props {
   children: React.ReactNode;
 }
 
-export const GameClientProvider: FC<Props> = ({ children }) => {
+export function GameClientProvider({ children }: Props) {
   const dispatch = useAppDispatch();
 
   useEffect(() => {
@@ -44,7 +45,7 @@ export const GameClientProvider: FC<Props> = ({ children }) => {
   }, [dispatch]);
 
   return <SignalrContextProvider client={client}>{children}</SignalrContextProvider>;
-};
+}
 
 export const useGameClient = () => {
   const { sendMessage } = useSignalrClient();
@@ -54,5 +55,6 @@ export const useGameClient = () => {
     create: (payload: Create) => sendMessage({ methodName: config.endpoints.create, payload }),
     join: (payload: Join) => sendMessage({ methodName: config.endpoints.join, payload }),
     move: (payload: Move) => sendMessage({ methodName: config.endpoints.move, payload }),
+    spectate: (payload: Spectate) => sendMessage({ methodName: config.endpoints.spectate, payload }),
   };
 };

@@ -10,11 +10,13 @@ import { useState } from "react";
 
 interface SquareProps {
   value: SquareValue;
+  highlight: boolean;
   onClick: () => Promise<void>;
 }
 
 interface BoardProps {
   squares: SquareValue[];
+  highlight: number[] | undefined;
   onClick: (square: number) => Promise<void>;
 }
 
@@ -42,8 +44,16 @@ function Square(props: SquareProps) {
     });
   };
 
+  const borderColor = props.highlight ? "green" : undefined;
+
   return (
-    <LoadingSquare variant="outlined" className="square" onClick={handleClick} loading={loading}>
+    <LoadingSquare
+      style={{ borderColor: borderColor }}
+      variant="outlined"
+      className="square"
+      onClick={handleClick}
+      loading={loading}
+    >
       {props.value}
     </LoadingSquare>
   );
@@ -51,7 +61,9 @@ function Square(props: SquareProps) {
 
 function Board(props: BoardProps) {
   function renderSquare(i: number) {
-    return <Square value={props.squares[i]} onClick={() => props.onClick(i)} />;
+    return (
+      <Square value={props.squares[i]} onClick={() => props.onClick(i)} highlight={!!props.highlight?.includes(i)} />
+    );
   }
 
   return (
@@ -79,36 +91,41 @@ export function Game() {
   const errorHandler = useErrorHandler();
   const { move } = useGameClient();
 
+  const isSpectator = !game.players.map((p) => p.name).includes(client.connectionId);
+
+  const winner = calculateWinner(game.squares);
+
   const status = game.players
     .filter((player) => player.name === client.connectionId)
     .map((player) => {
-      const winner = calculateWinner(game.squares);
-
-      const status = winner
-        ? (winner === "X" && player.isX) || (winner === "O" && !player.isX)
+      return winner
+        ? (winner.value === "X" && player.isX) || (winner.value === "O" && !player.isX)
           ? "You win"
           : "You lose"
         : (player.isX && game.xIsNext) || (!player.isX && !game.xIsNext)
           ? "Your turn"
           : "Wait for your turn";
-
-      return status;
     });
 
-  const moveHandler = (square: number) =>
-    move({
+  const moveHandler = async (square: number) => {
+    if (isSpectator) {
+      return;
+    }
+
+    return move({
       gameId: game.gameId,
       square,
     }).catch((e: unknown) => {
       errorHandler(e);
     });
+  };
 
   return (
     <Grid2 container justifyContent={"center"} className="game">
-      <Board squares={game.squares} onClick={moveHandler} />
+      <Board squares={game.squares} onClick={moveHandler} highlight={winner?.line} />
       <div className="game-info">
         <Typography variant="h4" marginTop="2vmin">
-          {status}
+          {isSpectator ? (!winner ? "Spectating" : `${winner.value} wins`) : status}
         </Typography>
       </div>
     </Grid2>
@@ -129,7 +146,10 @@ export function calculateWinner(squares: SquareValue[]) {
 
   for (const [a, b, c] of lines) {
     if (squares[a] && squares[a] === squares[b] && squares[a] === squares[c]) {
-      return squares[a];
+      return {
+        value: squares[a],
+        line: [a, b, c],
+      };
     }
   }
 

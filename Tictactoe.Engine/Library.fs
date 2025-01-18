@@ -29,6 +29,10 @@ type Join = {
     gameId: string
 }
 
+type Spectate = {
+    gameId: string
+}
+
 type Gamestate = {
     gameId: string
     squares: string option[]

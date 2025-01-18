@@ -1,11 +1,11 @@
 import "src/App.css";
-import { Outlet } from "react-router-dom";
 import { RenderError } from "src/features/error/Error";
 import { AppBar, Toolbar, Typography } from "@mui/material";
 import { ToggleColorModeButton } from "src/app/theme";
 import { Chat } from "src/features/chat/Chat";
 import { AccountButton } from "src/features/account/Login";
 import { GameClientProvider } from "src/features/game/gameClient";
+import { Outlet } from "react-router-dom";
 
 function TopNavBar() {
   return (

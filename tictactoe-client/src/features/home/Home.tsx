@@ -1,95 +1,15 @@
 import styled from "@emotion/styled";
-import { LoadingButton } from "@mui/lab";
-import { Dialog, DialogContent, DialogTitle, Typography } from "@mui/material";
-import { FC, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useErrorHandler } from "src/features/error/Error";
 import { useGameClient } from "src/features/game/gameClient";
-
-const Input = styled.input`
-  font-size: 18px;
-  padding: 10px;
-  margin: 10px;
-  border: none;
-  border-radius: 3px;
-`;
-
-const StyledButton = styled.button`
-  min-width: 100%;
-  font-size: 18px;
-  padding: 10px;
-  margin: 5px;
-  border-radius: 7px;
-  :hover {
-    color: red;
-  }
-`;
+import { EnterCodeDialog } from "src/features/home/EnterCodeDialog";
+import { Typography } from "@mui/material";
 
 const HomeText = styled(Typography)`
   margin: 10px;
 `;
 
-const EnterCodeDialog: FC<{
-  onCodeEntered: (code: string) => Promise<void>;
-  title: string;
-  buttonText: string;
-}> = ({ onCodeEntered, title, buttonText }) => {
-  const [open, setOpen] = useState(false);
-
-  const handleOpen = () => {
-    setOpen(true);
-  };
-  const handleClose = () => {
-    setOpen(false);
-  };
-
-  return (
-    <>
-      <Dialog open={open} onClose={handleClose}>
-        <DialogTitle>{title}</DialogTitle>
-        <DialogContent>
-          <EnterCode onCodeEntered={onCodeEntered} />
-        </DialogContent>
-      </Dialog>
-      <StyledButton onClick={handleOpen}>{buttonText}</StyledButton>
-    </>
-  );
-};
-
-const EnterCode: FC<{ onCodeEntered: (code: string) => Promise<void> }> = ({ onCodeEntered }) => {
-  const [code, setCode] = useState("");
-  const [loading, setLoading] = useState(false);
-  const errorHandler = useErrorHandler();
-
-  const clickHandler = () => {
-    if (!code) {
-      errorHandler("Code should not be empty");
-      return;
-    }
-
-    setLoading(true);
-
-    onCodeEntered(code).finally(() => {
-      setLoading(false);
-    });
-  };
-
-  return (
-    <>
-      <Input
-        placeholder="Code"
-        onChange={({ target: { value } }) => {
-          setCode(value);
-        }}
-      />
-      <LoadingButton onClick={clickHandler} loading={loading}>
-        Enter
-      </LoadingButton>
-    </>
-  );
-};
-
-const CreateGame = () => {
+function CreateGame() {
   const { create } = useGameClient();
   const navigate = useNavigate();
   const errorHandler = useErrorHandler();
@@ -102,9 +22,9 @@ const CreateGame = () => {
       });
 
   return <EnterCodeDialog title="Create a new game" buttonText="Create" onCodeEntered={createHandler} />;
-};
+}
 
-const JoinGame = () => {
+function JoinGame() {
   const { join } = useGameClient();
   const navigate = useNavigate();
   const errorHandler = useErrorHandler();
@@ -117,7 +37,22 @@ const JoinGame = () => {
       });
 
   return <EnterCodeDialog title="Join to an existing game" buttonText="Join" onCodeEntered={joinHandler} />;
-};
+}
+
+function SpectateGame() {
+  const { spectate } = useGameClient();
+  const navigate = useNavigate();
+  const errorHandler = useErrorHandler();
+
+  const spectateHandler = (code: string) =>
+    spectate({ gameId: code })
+      .then(() => navigate("/lobby"))
+      .catch((e: unknown) => {
+        errorHandler(e);
+      });
+
+  return <EnterCodeDialog title="Join to an existing game" buttonText="Spectate" onCodeEntered={spectateHandler} />;
+}
 
 export function Home() {
   return (
@@ -125,6 +60,7 @@ export function Home() {
       <HomeText variant="h3">Create or join a game</HomeText>
       <CreateGame />
       <JoinGame />
+      <SpectateGame />
     </div>
   );
 }

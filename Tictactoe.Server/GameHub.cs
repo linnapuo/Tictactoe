@@ -45,6 +45,20 @@ public class GameHub(IMemoryCache cache) : Hub
         await SendGamestate(lobby);
     }
 
+    public async Task Spectate(Spectate spectate)
+    {
+        if (!cache.TryGetValue(spectate.gameId, out Lobby? lobby))
+        {
+            throw new HubException("Game does not exist");
+        }
+
+        cache.Set(spectate.gameId, lobby);
+
+        await Groups.AddToGroupAsync(Context.ConnectionId, lobby!.gameId);
+
+        await SendGamestate(lobby);
+    }
+
     public async Task Move(Move move)
     {
         if (!cache.TryGetValue(move.gameId, out Lobby? lobby))

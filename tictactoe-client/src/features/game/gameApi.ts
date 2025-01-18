@@ -18,6 +18,10 @@ export interface Join {
   gameId: string;
 }
 
+export interface Spectate {
+  gameId: string;
+}
+
 export interface GameState {
   gameId: string;
   players: Player[];
