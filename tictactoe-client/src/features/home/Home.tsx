@@ -59,8 +59,14 @@ const EnterCodeDialog: FC<{
 const EnterCode: FC<{ onCodeEntered: (code: string) => Promise<void> }> = ({ onCodeEntered }) => {
   const [code, setCode] = useState("");
   const [loading, setLoading] = useState(false);
+  const errorHandler = useErrorHandler();
 
   const clickHandler = () => {
+    if (!code) {
+      errorHandler("Code should not be empty");
+      return;
+    }
+
     setLoading(true);
 
     onCodeEntered(code).finally(() => {

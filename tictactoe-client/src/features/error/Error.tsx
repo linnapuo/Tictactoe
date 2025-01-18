@@ -32,7 +32,11 @@ export const errorSlice = createSlice({
 export function useErrorHandler() {
   const dispatch = useAppDispatch();
 
-  return (error: unknown) => {
+  return (error: string | unknown) => {
+    if (typeof error === "string") {
+      dispatch(errorSlice.actions.setError({ message: error }));
+      return;
+    }
     if (typeof error === "object" && error && "message" in error && typeof error.message === "string") {
       dispatch(errorSlice.actions.setError({ message: error.message }));
     }

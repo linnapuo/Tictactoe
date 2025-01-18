@@ -5,6 +5,7 @@ import { AppBar, Toolbar, Typography } from "@mui/material";
 import { ToggleColorModeButton } from "src/app/theme";
 import { Chat } from "src/features/chat/Chat";
 import { AccountButton } from "src/features/account/Login";
+import { GameClientProvider } from "src/features/game/gameClient";
 
 function TopNavBar() {
   return (
@@ -42,7 +43,9 @@ export default function App() {
     <div className="App">
       <Header />
       <main>
-        <Outlet />
+        <GameClientProvider>
+          <Outlet />
+        </GameClientProvider>
       </main>
       <Footer />
     </div>
