@@ -20,6 +20,7 @@ public class AdminController(IMemoryCache cache) : ControllerBase
             .Where(key => key is string)
             .Select(memoryCache.Get)
             .OfType<Lobby>()
+            .Select(x => new { x.gameId })
             .ToList();
 
         return Ok(lobbies);
