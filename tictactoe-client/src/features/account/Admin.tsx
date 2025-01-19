@@ -1,59 +1,75 @@
-import { Button, Table, TableRow } from "@mui/material";
+import { Button, Table, TableBody, TableCell, TableContainer, TableHead, TableRow } from "@mui/material";
 import { useEffect, useState } from "react";
-import DeleteIcon from '@mui/icons-material/Delete';
+import DeleteIcon from "@mui/icons-material/Delete";
+import { useAuth } from "react-oidc-context";
 
-async function onClick(gameId: string, setData: (state: Lobby[]) => void) {
-
-  const response = await fetch(
-    `${import.meta.env.VITE_API_BASE_URL}/admin/lobbies/${gameId}`,
-    {
-      method: "DELETE"
-    }
-  );
+async function onClick(gameId: string, setData: (state: Lobby[]) => void, token: string | undefined) {
+  const response = await fetch(`${import.meta.env.VITE_API_BASE_URL}/admin/lobbies/${gameId}`, {
+    method: "DELETE",
+    headers: {
+      Authorization: `Bearer ${token}`,
+    },
+  });
 
   if (!response.ok) {
     return;
   }
 
-  fetchData(setData);
-
-}
-
-function LobbyRow({ gameId, setData }: { gameId: string, setData: (state: Lobby[]) => void }) {
-  return <TableRow>
-    {gameId}
-    <Button onClick={() => onClick(gameId, setData)}>
-      <DeleteIcon />
-    </Button>
-  </TableRow>;
+  fetchData(setData, token);
 }
 
 interface Lobby {
-  gameId: string
+  gameId: string;
 }
 
-async function fetchData(setData: (state: Lobby[]) => void) {
-  const response = await fetch(`${import.meta.env.VITE_API_BASE_URL}/admin/lobbies`);
+async function fetchData(setData: (state: Lobby[]) => void, token: string | undefined) {
+  const response = await fetch(`${import.meta.env.VITE_API_BASE_URL}/admin/lobbies`, {
+    headers: {
+      Authorization: `Bearer ${token}`,
+    },
+  });
 
   if (!response.ok) {
     setData([]);
   }
 
-  const state = await response.json() as Lobby[];
+  const state = (await response.json()) as Lobby[];
   setData(state);
 }
 
 export function Admin() {
-
+  const auth = useAuth();
   const [data, setData] = useState<Lobby[]>([]);
+  const token = auth.user?.access_token;
 
   useEffect(() => {
-    fetchData(setData);
-  }, []);
+    if (!token) {
+      return;
+    }
+    fetchData(setData, token);
+  }, [token]);
 
-  if (!data.length) {
-    return <div>Empty</div>
-  }
-
-  return <Table>{data.map(d => <LobbyRow gameId={d.gameId} setData={setData} />)}</Table>;
+  return (
+    <TableContainer>
+      <Table>
+        <TableHead>
+          <TableRow>
+            <TableCell>Games</TableCell>
+          </TableRow>
+        </TableHead>
+        <TableBody>
+          {data.map((row) => (
+            <TableRow key={row.gameId}>
+              <TableCell>
+                {row.gameId}
+                <Button onClick={() => onClick(row.gameId, setData, token)}>
+                  <DeleteIcon />
+                </Button>
+              </TableCell>
+            </TableRow>
+          ))}
+        </TableBody>
+      </Table>
+    </TableContainer>
+  );
 }

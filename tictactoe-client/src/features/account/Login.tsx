@@ -15,9 +15,15 @@ export function AccountButton() {
 
 export default function Login() {
   const auth = useAuth();
+  const navigate = useNavigate();
 
   if (auth.isAuthenticated) {
-    return <Button onClick={() => auth.signoutRedirect()}>Logout</Button>;
+    return (
+      <>
+        <Button onClick={() => auth.signoutRedirect()}>Logout</Button>
+        <Button onClick={() => navigate("/admin")}>Admin</Button>
+      </>
+    );
   }
 
   return <Button onClick={() => auth.signinRedirect()}>Login</Button>;
