@@ -1,9 +1,14 @@
 import { Button, Table, TableBody, TableCell, TableContainer, TableHead, TableRow } from "@mui/material";
 import { useEffect, useState } from "react";
 import DeleteIcon from "@mui/icons-material/Delete";
+import RefreshIcon from "@mui/icons-material/Refresh";
 import { useAuth } from "react-oidc-context";
 
-async function onClick(gameId: string, setData: (state: Lobby[]) => void, token: string | undefined) {
+interface Lobby {
+  gameId: string;
+}
+
+async function onDelete(gameId: string, setData: (state: Lobby[]) => void, token: string | undefined) {
   const response = await fetch(`${import.meta.env.VITE_API_BASE_URL}/admin/lobbies/${gameId}`, {
     method: "DELETE",
     headers: {
@@ -16,10 +21,6 @@ async function onClick(gameId: string, setData: (state: Lobby[]) => void, token:
   }
 
   fetchData(setData, token);
-}
-
-interface Lobby {
-  gameId: string;
 }
 
 async function fetchData(setData: (state: Lobby[]) => void, token: string | undefined) {
@@ -54,7 +55,12 @@ export function Admin() {
       <Table>
         <TableHead>
           <TableRow>
-            <TableCell>Games</TableCell>
+            <TableCell>
+              Games
+              <Button onClick={() => fetchData(setData, token)}>
+                <RefreshIcon />
+              </Button>
+            </TableCell>
           </TableRow>
         </TableHead>
         <TableBody>
@@ -62,7 +68,7 @@ export function Admin() {
             <TableRow key={row.gameId}>
               <TableCell>
                 {row.gameId}
-                <Button onClick={() => onClick(row.gameId, setData, token)}>
+                <Button onClick={() => onDelete(row.gameId, setData, token)}>
                   <DeleteIcon />
                 </Button>
               </TableCell>
