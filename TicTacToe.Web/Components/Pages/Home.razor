@@ -1,0 +1,86 @@
+@page "/"
+@using Microsoft.AspNetCore.SignalR.Client
+@using TicTacToe.Web.Components.Dialogs
+@using TicTacToe.Web.Components.Models
+@using TicTacToe.Web.Services
+@inject NavigationManager NavigationManager
+@inject IDialogService DialogService
+@inject GameClient Client
+
+<PageTitle>TicTacToe</PageTitle>
+
+<h1>Create or join a game</h1>
+
+<FluentStack Orientation="Orientation.Vertical">
+    <FluentButton OnClick="CreateGameAsync">
+        Create Game
+    </FluentButton>
+    <FluentButton OnClick="JoinGameAsync">
+        Join Game
+    </FluentButton>
+</FluentStack>
+
+@code{
+    private string _code = "";
+
+    protected override async Task OnInitializedAsync()
+    {
+        await Client.EnsureStartedAsync();
+    }
+
+    private async Task CreateGameAsync()
+    {
+        var content = new InputContent
+        {
+            Code = ""
+        };
+
+        var parameters = new DialogParameters
+        {
+            Title = "Create a game",
+            PrimaryAction = "Ok",
+            PrimaryActionEnabled = true,
+            SecondaryAction = "Cancel",
+            Width = "500px",
+            TrapFocus = true,
+            Modal = true,
+            PreventScroll = true 
+        };
+
+        var dialog = await DialogService.ShowDialogAsync<InputDialog>(content, parameters);
+        var result = await dialog.Result;
+
+        if (!result.Cancelled && result.Data is InputContent c)
+        {
+            _code = c.Code;
+        }
+    }
+
+    private async Task JoinGameAsync()
+    {
+        var content = new InputContent
+        {
+            Code = ""
+        };
+
+        var parameters = new DialogParameters
+        {
+            Title = "Join a game",
+            PrimaryAction = "Ok",
+            PrimaryActionEnabled = true,
+            SecondaryAction = "Cancel",
+            Width = "500px",
+            TrapFocus = true,
+            Modal = true,
+            PreventScroll = true
+        };
+
+        var dialog = await DialogService.ShowDialogAsync<InputDialog>(content, parameters);
+        var result = await dialog.Result;
+
+        if (!result.Cancelled && result.Data is InputContent c)
+        {
+            _code = c.Code;
+        }
+    }
+}

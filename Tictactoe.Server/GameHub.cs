@@ -29,7 +29,7 @@ public class GameHub(IMemoryCache cache) : Hub
             throw new HubException("Game does not exist");
         }
 
-        var result = Funcs.JoinGame(lobby, Context.ConnectionId);
+        var result = Funcs.JoinGame(lobby!, Context.ConnectionId);
 
         if (result.IsError)
         {
@@ -66,7 +66,7 @@ public class GameHub(IMemoryCache cache) : Hub
             throw new HubException("Game does not exist");
         }
 
-        var result = Funcs.MakeMove(move, lobby, Context.ConnectionId);
+        var result = Funcs.MakeMove(move, lobby!, Context.ConnectionId);
 
         if (result.IsError)
         {
