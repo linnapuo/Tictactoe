@@ -25,7 +25,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution 
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Tictactoe.Gateway", "Tictactoe.Gateway\Tictactoe.Gateway.csproj", "{B6AF5B66-2091-48CC-BEF1-75E1A39C22DD}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TicTacToe.Web", "TicTacToe.Web\TicTacToe.Web.csproj", "{487C74A2-FC8E-4E5D-920F-2A520014840D}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Tictactoe.Web", "TicTacToe.Web\Tictactoe.Web.csproj", "{487C74A2-FC8E-4E5D-920F-2A520014840D}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

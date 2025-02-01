@@ -1,4 +1,4 @@
-namespace TicTacToe.Web.Components.Models;
+namespace Tictactoe.Web.Components.Models;
 
 public class InputContent
 {

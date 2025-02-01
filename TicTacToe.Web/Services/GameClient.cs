@@ -1,7 +1,7 @@
 using Microsoft.AspNetCore.SignalR.Client;
 using Tictactoe.Engine;
 
-namespace TicTacToe.Web.Services;
+namespace Tictactoe.Web.Services;
 
 public class GameClient([FromKeyedServices("GameClient")] HubConnection client, ILogger<GameClient> logger)
 {

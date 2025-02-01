@@ -1,6 +1,6 @@
 using Tictactoe.Engine;
 
-namespace TicTacToe.Web.Services;
+namespace Tictactoe.Web.Services;
 
 public class GamestateStore
 {

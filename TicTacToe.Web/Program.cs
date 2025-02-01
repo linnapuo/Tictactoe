@@ -1,7 +1,7 @@
 using Microsoft.AspNetCore.SignalR.Client;
 using Microsoft.FluentUI.AspNetCore.Components;
-using TicTacToe.Web.Components;
-using TicTacToe.Web.Services;
+using Tictactoe.Web.Services;
+using Tictactoe.Web.Components;
 
 var builder = WebApplication.CreateBuilder(args);
 
