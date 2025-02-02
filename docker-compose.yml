@@ -1,0 +1,6 @@
+services:
+  tictactoe.server:
+    image: ${DOCKER_REGISTRY-}tictactoeserver
+    build:
+      context: .
+      dockerfile: Tictactoe.Server/Dockerfile
