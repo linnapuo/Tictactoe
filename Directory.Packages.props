@@ -8,6 +8,8 @@
     <PackageVersion Include="Aspire.Hosting.NodeJS" Version="9.0.0" />
     <PackageVersion Include="coverlet.collector" Version="6.0.3" />
     <PackageVersion Include="FSharp.Core" Version="9.0.101" />
+    <PackageVersion Include="Microsoft.AspNetCore.Components.WebAssembly" Version="9.0.0" />
+    <PackageVersion Include="Microsoft.AspNetCore.Components.WebAssembly.DevServer" Version="9.0.0" />
     <PackageVersion Include="Microsoft.AspNetCore.Diagnostics.EntityFrameworkCore" Version="9.0.0" />
     <PackageVersion Include="Microsoft.AspNetCore.Identity.EntityFrameworkCore" Version="9.0.0" />
     <PackageVersion Include="Microsoft.AspNetCore.OpenApi" Version="9.0.0" />

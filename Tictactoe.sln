@@ -29,6 +29,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Tictactoe.Web", "TicTacToe.
 EndProject
 Project("{E53339B2-1760-4266-BCC7-CA923CBCF16C}") = "docker-compose", "docker-compose.dcproj", "{2689866A-B846-4BA3-9FB1-4382AF54AC73}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Tictactoe.App", "Tictactoe.App\Tictactoe.App.csproj", "{A659AD2C-95A7-44BB-8C22-490DF7210472}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -71,6 +73,10 @@ Global
 		{2689866A-B846-4BA3-9FB1-4382AF54AC73}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{2689866A-B846-4BA3-9FB1-4382AF54AC73}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{2689866A-B846-4BA3-9FB1-4382AF54AC73}.Release|Any CPU.Build.0 = Release|Any CPU
+		{A659AD2C-95A7-44BB-8C22-490DF7210472}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A659AD2C-95A7-44BB-8C22-490DF7210472}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A659AD2C-95A7-44BB-8C22-490DF7210472}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A659AD2C-95A7-44BB-8C22-490DF7210472}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
