@@ -1,0 +1,24 @@
+@implements IDisposable
+@page "/lobby"
+@inject AppState StateManager
+
+@if (StateManager.Gamestate?.Players.Count < 2)
+{
+    <h3>Waiting for: @StateManager.Code</h3>
+}
+else
+{
+    @StateManager.GoToGameAsync();
+}
+
+@code {
+    protected override void OnInitialized()
+    {
+        StateManager.OnChange += StateHasChanged;
+    }
+
+    public void Dispose()
+    {
+        StateManager.OnChange -= StateHasChanged;
+    }
+}

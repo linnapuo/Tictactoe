@@ -1,0 +1,34 @@
+@implements IDisposable
+@page "/game"
+@inject AppState AppState
+
+<h3>Game</h3>
+
+<div style="display: grid; grid-template: repeat(3, 96px) / repeat(3, 96px);">
+    @for (var i = 0; i < _squares.Length; i++)
+    {
+        var x = i;
+        <FluentButton Id="@x.ToString()" Style="width: auto; height: auto;" OnClick="(e) => OnClick(e, x)">@_squares[x]</FluentButton>
+    }
+</div>
+
+
+@code {
+    private string?[] _squares = new string?[9];
+
+    private void OnClick(MouseEventArgs e, int i)
+    {
+        _squares[i] = "X";
+    }
+
+    protected override void OnInitialized()
+    {
+        _squares = AppState.Gamestate?.Squares ?? new string?[9];
+        AppState.OnChange += StateHasChanged;
+    }
+
+    public void Dispose()
+    {
+        AppState.OnChange -= StateHasChanged;
+    }
+}
