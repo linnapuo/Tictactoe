@@ -1,7 +1,6 @@
 @inherits LayoutComponentBase
 
 <FluentLayout>
-    <FluentDialogProvider />
     <FluentHeader>
         Tictactoe.App
     </FluentHeader>
@@ -19,6 +18,8 @@
                 </ErrorContent>
             </ErrorBoundary>
         </FluentBodyContent>
+        <FluentDialogProvider />
+        <FluentToastProvider MaxToastCount="1" Position="ToastPosition.BottomLeft" Timeout="6000" />
     </FluentStack>
     <FluentFooter>
         <a href="https://www.fluentui-blazor.net" target="_blank">Documentation and demos</a>

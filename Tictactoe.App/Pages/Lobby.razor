@@ -2,14 +2,13 @@
 @page "/lobby"
 @inject AppState StateManager
 
-@if (StateManager.Gamestate?.Players.Count < 2)
+@if (StateManager.Gamestate?.Players.Count == 2)
 {
-    <h3>Waiting for: @StateManager.Code</h3>
+    @StateManager.GoToGameAsync()
+    return;
 }
-else
-{
-    @StateManager.GoToGameAsync();
-}
+
+<h3>Waiting for: @StateManager.Code</h3>
 
 @code {
     protected override void OnInitialized()

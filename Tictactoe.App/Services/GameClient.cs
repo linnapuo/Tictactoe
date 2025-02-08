@@ -5,6 +5,8 @@ namespace Tictactoe.App.Services;
 
 public class GameClient([FromKeyedServices("GameClient")] HubConnection client, ILogger<GameClient> logger)
 {
+    public string? ConnectionId => client.ConnectionId;
+
     public async Task EnsureStartedAsync()
     {
         if (client.State is not HubConnectionState.Disconnected)

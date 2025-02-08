@@ -1,34 +1,132 @@
 @implements IDisposable
 @page "/game"
 @inject AppState AppState
+@inject NavigationManager NavigationManager
 
 <h3>Game</h3>
 
+@if (AppState.ConnectionId is null)
+{
+    <div>No connection</div>
+    return;
+}
+
+@if (AppState.Gamestate is null)
+{
+    <div>Game not started</div>
+    <FluentButton OnClick="NavigateToHome">Back to home</FluentButton>
+    return;
+}
+
 <div style="display: grid; grid-template: repeat(3, 96px) / repeat(3, 96px);">
-    @for (var i = 0; i < _squares.Length; i++)
+    @for (var i = 0; i < AppState.Gamestate.Squares.Length; i++)
     {
         var x = i;
-        <FluentButton Id="@x.ToString()" Style="width: auto; height: auto;" OnClick="(e) => OnClick(e, x)">@_squares[x]</FluentButton>
+        <FluentButton Loading="@_loading[x]" Style="width: auto; height: auto;" OnClick="(e) => OnClick(e, x)">@AppState.Gamestate.Squares[x]</FluentButton>
     }
 </div>
 
+@if (_winner is not null)
+{
+    @if (_winner.Value == "X" && _player.IsX || _winner.Value == "O" && !_player.IsX)
+    {
+        <div>You win</div>
+    }
+    else
+    {
+        <div>You lose</div>
+    }
+
+    return;
+}
+
+@if (_player.IsX && AppState.Gamestate.XIsNext || !_player.IsX && !AppState.Gamestate.XIsNext)
+{
+    <div>Your turn</div>
+}
+else
+{
+    <div>Wait for your turn</div>
+}
 
 @code {
-    private string?[] _squares = new string?[9];
 
-    private void OnClick(MouseEventArgs e, int i)
+
+    private class Winner
     {
-        _squares[i] = "X";
+        public required string Value { get; init; }
+        public required int[] Line { get; init; }
+    }
+
+    private static readonly List<int[]> _lines = new()
+    {
+        new[] { 0, 1, 2 },
+        new[] { 3, 4, 5 },
+        new[] { 6, 7, 8 },
+        new[] { 0, 3, 6 },
+        new[] { 1, 4, 7 },
+        new[] { 2, 5, 8 },
+        new[] { 0, 4, 8 },
+        new[] { 2, 4, 6 }
+    };
+
+    private static Winner? CalculateWinner(string?[] squares)
+    {
+        foreach (var line in _lines)
+        {
+            int a = line[0], b = line[1], c = line[2];
+            if (squares[a] is not null && squares[a] == squares[b] && squares[a] == squares[c])
+            {
+                return new Winner
+                {
+                    Value = squares[a]!,
+                    Line = [a, b, c]
+                };
+            }
+        }
+
+        return default;
+    }
+
+    private Player _player = new("", false);
+    private Winner? _winner;
+    private bool[] _loading = [];
+
+    private async Task OnClick(MouseEventArgs e, int i)
+    {
+        _loading[i] = true;
+        await AppState.MoveAsync(AppState.Code!, i);
     }
 
     protected override void OnInitialized()
     {
-        _squares = AppState.Gamestate?.Squares ?? new string?[9];
-        AppState.OnChange += StateHasChanged;
+        if (AppState.ConnectionId is null || AppState.Gamestate is null)
+        {
+            return;
+        }
+
+        _loading = Enumerable.Repeat(false, AppState.Gamestate.Squares.Length).ToArray();
+        _player = AppState.Gamestate.Players.Single(x => x.Name == AppState.ConnectionId);
+        AppState.OnChange += HandleStateChanged;
     }
 
     public void Dispose()
     {
-        AppState.OnChange -= StateHasChanged;
+        AppState.OnChange -= HandleStateChanged;
+    }
+
+    private void NavigateToHome()
+    {
+        NavigationManager.NavigateTo("/");
+    }
+
+    private void HandleStateChanged()
+    {
+        for (var i = 0; i < _loading.Length; i++)
+        {
+            _loading[i] = false;
+        }
+        _winner = CalculateWinner(AppState.Gamestate!.Squares);
+        StateHasChanged();
     }
 }

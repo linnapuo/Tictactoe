@@ -40,7 +40,7 @@
 
         if (!result.Cancelled && result.Data is InputContent c && !string.IsNullOrWhiteSpace(c.Code))
         {
-            await StateManager.GoToLobbyAsync(c.Code);
+            await StateManager.CreateLobbyAsync(c.Code);
         }
     }
 
@@ -68,7 +68,7 @@
 
         if (!result.Cancelled && result.Data is InputContent c)
         {
-            await StateManager.GoToLobbyAsync(c.Code);
+            await StateManager.JoinLobbyAsync(c.Code);
         }
     }
 }
