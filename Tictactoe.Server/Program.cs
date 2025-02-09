@@ -2,6 +2,7 @@ using Microsoft.AspNetCore.SignalR;
 using Microsoft.OpenApi.Models;
 using OpenIddict.Validation.AspNetCore;
 using Tictactoe.Server;
+using Microsoft.Azure.SignalR;
 
 var builder = WebApplication.CreateBuilder(args);
 
