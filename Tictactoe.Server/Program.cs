@@ -36,20 +36,27 @@ builder.Services.AddSwaggerGen(options =>
     });
 });
 
+var allowedOrigins = builder.Configuration
+    .GetValue<string>("AllowedOrigins")
+    ?.Split(";") ?? throw new InvalidOperationException("Missing configuration AllowedOrigins");
+
 builder.Services.AddCors(options =>
 {
     options.AddDefaultPolicy(policy =>
     {
-        policy.WithOrigins("http://localhost:5173", "https://localhost:7219")
+        policy.WithOrigins(allowedOrigins)
               .AllowAnyHeader()
               .AllowAnyMethod()
               .AllowCredentials();
     });
 });
-builder.Services.AddSignalR(options =>
+
+var signalr = builder.Services.AddSignalR(options =>
 {
     options.AddFilter<ExceptionFilter>();
-});
+})
+.AddAzureSignalR();
+
 builder.Services.AddMemoryCache();
 builder.Services.AddControllers();
 builder.Services.AddRouting(options => options.LowercaseUrls = true);
