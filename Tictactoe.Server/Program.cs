@@ -63,22 +63,22 @@ builder.Services.AddControllers();
 builder.Services.AddRouting(options => options.LowercaseUrls = true);
 
 builder.Services.AddOpenIddict().AddValidation(options =>
- {
-     // Note: the validation handler uses OpenID Connect discovery
-     // to retrieve the issuer signing keys used to validate tokens.
-     options.SetIssuer("https://localhost:7180/");
-     //options.AddAudiences("tictactoe_server_1");
+{
+    // Note: the validation handler uses OpenID Connect discovery
+    // to retrieve the issuer signing keys used to validate tokens.
+    options.SetIssuer("https://localhost:7180/");
+    //options.AddAudiences("tictactoe_server_1");
 
-     options.UseIntrospection()
-        .SetClientId("tictactoe_server_1")
-        .SetClientSecret("tictactoe_server_1");
+    options.UseIntrospection()
+    .SetClientId("tictactoe_server_1")
+    .SetClientSecret("tictactoe_server_1");
 
-     // Register the System.Net.Http integration.
-     options.UseSystemNetHttp();
+    // Register the System.Net.Http integration.
+    options.UseSystemNetHttp();
 
-     // Register the ASP.NET Core host.
-     options.UseAspNetCore();
- });
+    // Register the ASP.NET Core host.
+    options.UseAspNetCore();
+});
 
 builder.Services.AddAuthentication(OpenIddictValidationAspNetCoreDefaults.AuthenticationScheme);
 builder.Services.AddAuthorization();
