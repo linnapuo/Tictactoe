@@ -16,7 +16,15 @@ resource appServicePlan 'Microsoft.Web/serverfarms@2024-04-01' = {
   sku: {
     name: 'F1'
   }
+  properties: {
+    reserved: true
+  }
 }
+
+//resource managedIdentity 'Microsoft.ManagedIdentity/userAssignedIdentities@2023-07-31-preview' = {
+//  name: 'github-actions'
+//  location: 'northeurope'
+//}
 
 resource webApp 'Microsoft.Web/sites@2024-04-01' = {
   name: webAppName
@@ -24,6 +32,9 @@ resource webApp 'Microsoft.Web/sites@2024-04-01' = {
   properties: {
     serverFarmId: appServicePlan.id
     httpsOnly: true
+    siteConfig: {
+      linuxFxVersion: 'DOTNETCORE|9.0'
+    }
   }
   identity: {
     type: 'SystemAssigned'
@@ -57,7 +68,6 @@ resource staticSite 'Microsoft.Web/staticSites@2024-04-01' = {
   properties: {
     repositoryUrl: gitRepoUrl
     branch: 'master'
-    provider: 'GitHub'
   }
   sku: {
     name: 'Free'
