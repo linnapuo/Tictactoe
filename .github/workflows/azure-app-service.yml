@@ -8,6 +8,7 @@ permissions:
   contents: read
 
 env:
+  WEBAPP_PROJECT: './Tictactoe.Server/Tictactoe.Server.csproj'
   AZURE_WEBAPP_NAME: Tictactoe.Server
   AZURE_WEBAPP_PACKAGE_PATH: './Tictactoe.Server'
   DOTNET_VERSION: '9.0'
@@ -32,9 +33,9 @@ jobs:
       
       - name: dotnet build and publish
         run: |
-          dotnet restore
-          dotnet build --configuration Release
-          dotnet publish -c Release --property:PublishDir='${{ env.AZURE_WEBAPP_PACKAGE_PATH }}/myapp' 
+          dotnet restore ${{ env.WEBAPP_PROJECT }}
+          dotnet build ${{ env.WEBAPP_PROJECT }} -c Release --no-restore
+          dotnet publish ${{ env.WEBAPP_PROJECT }} -c Release --property:PublishDir='${{ env.AZURE_WEBAPP_PACKAGE_PATH }}/myapp' --no-build
 
       - name: 'Run Azure webapp deploy action using publish profile credentials'
         uses: azure/webapps-deploy@v3
