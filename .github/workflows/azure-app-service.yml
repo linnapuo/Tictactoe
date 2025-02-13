@@ -9,7 +9,7 @@ permissions:
 
 env:
   WEBAPP_PROJECT: './Tictactoe.Server/Tictactoe.Server.csproj'
-  AZURE_WEBAPP_NAME: Tictactoe.Server
+  AZURE_WEBAPP_NAME: tic-app-ipzokncra66xw
   AZURE_WEBAPP_PACKAGE_PATH: './Tictactoe.Server'
   DOTNET_VERSION: '9.0'
 
