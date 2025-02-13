@@ -3,6 +3,10 @@ on:
     branches:
       - master
 
+permissions:
+  id-token: write
+  contents: read
+
 env:
   AZURE_WEBAPP_NAME: Tictactoe.Server
   AZURE_WEBAPP_PACKAGE_PATH: './Tictactoe.Server'
