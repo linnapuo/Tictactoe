@@ -2,6 +2,8 @@ on:
   push:
     branches:
       - master
+    paths:
+      - 'Tictactoe.Server/**'
 
 permissions:
   id-token: write
