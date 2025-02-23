@@ -46,3 +46,4 @@ Deploy bicep:
 
 Further reading:
 - https://learn.microsoft.com/en-us/azure/app-service/deploy-best-practices
+- https://learn.microsoft.com/en-us/entra/workload-id/workload-identity-federation-create-trust-user-assigned-managed-identity
