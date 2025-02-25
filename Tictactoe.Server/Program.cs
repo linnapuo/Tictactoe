@@ -55,8 +55,12 @@ builder.Services.AddCors(options =>
 var signalr = builder.Services.AddSignalR(options =>
 {
     options.AddFilter<ExceptionFilter>();
-})
-.AddAzureSignalR();
+});
+
+if (builder.Environment.IsProduction())
+{
+    signalr.AddAzureSignalR();
+}
 
 builder.Services.AddMemoryCache();
 builder.Services.AddControllers();
