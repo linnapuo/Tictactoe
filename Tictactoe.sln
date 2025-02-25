@@ -25,8 +25,6 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution 
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Tictactoe.Gateway", "Tictactoe.Gateway\Tictactoe.Gateway.csproj", "{B6AF5B66-2091-48CC-BEF1-75E1A39C22DD}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Tictactoe.Web", "TicTacToe.Web\Tictactoe.Web.csproj", "{487C74A2-FC8E-4E5D-920F-2A520014840D}"
-EndProject
 Project("{E53339B2-1760-4266-BCC7-CA923CBCF16C}") = "docker-compose", "docker-compose.dcproj", "{2689866A-B846-4BA3-9FB1-4382AF54AC73}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Tictactoe.App", "Tictactoe.App\Tictactoe.App.csproj", "{A659AD2C-95A7-44BB-8C22-490DF7210472}"
@@ -65,10 +63,6 @@ Global
 		{B6AF5B66-2091-48CC-BEF1-75E1A39C22DD}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{B6AF5B66-2091-48CC-BEF1-75E1A39C22DD}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{B6AF5B66-2091-48CC-BEF1-75E1A39C22DD}.Release|Any CPU.Build.0 = Release|Any CPU
-		{487C74A2-FC8E-4E5D-920F-2A520014840D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{487C74A2-FC8E-4E5D-920F-2A520014840D}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{487C74A2-FC8E-4E5D-920F-2A520014840D}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{487C74A2-FC8E-4E5D-920F-2A520014840D}.Release|Any CPU.Build.0 = Release|Any CPU
 		{2689866A-B846-4BA3-9FB1-4382AF54AC73}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{2689866A-B846-4BA3-9FB1-4382AF54AC73}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{2689866A-B846-4BA3-9FB1-4382AF54AC73}.Release|Any CPU.ActiveCfg = Release|Any CPU
