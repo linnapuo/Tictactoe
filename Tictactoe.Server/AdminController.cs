@@ -24,7 +24,7 @@ public class AdminController(IMemoryCache cache) : ControllerBase
             .Where(key => key is string)
             .Select(memoryCache.Get)
             .OfType<Lobby>()
-            .Select(x => new { x.gameId })
+            .Select(x => new { x.GameId })
             .ToList();
 
         return Ok(lobbies);
