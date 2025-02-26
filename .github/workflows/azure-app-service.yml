@@ -1,10 +1,13 @@
+name: Azure App Service CI/CD
+
 on:
   push:
     branches:
       - master
     paths:
+      - 'Tictactoe.Engine/**'
       - 'Tictactoe.Server/**'
-
+      - .github/workflows/azure-app-service.yml
 permissions:
   id-token: write
   contents: read
