@@ -11,6 +11,7 @@ permissions:
 
 env:
   WEBAPP_PROJECT: './Tictactoe.Server/Tictactoe.Server.csproj'
+  TEST_PROJECT: './Tictactoe.Engine.UnitTest/Tictactoe.Engine.UnitTest.csproj'
   AZURE_WEBAPP_NAME: tic-app-ipzokncra66xw
   AZURE_WEBAPP_PACKAGE_PATH: './Tictactoe.Server'
   DOTNET_VERSION: '9.0'
@@ -33,6 +34,9 @@ jobs:
         with:
           dotnet-version: ${{ env.DOTNET_VERSION }} 
       
+      - name: Run engine tests
+        run: dotnet test ${{ env.TEST_PROJECT }} -c Release
+
       - name: dotnet build and publish
         run: |
           dotnet restore ${{ env.WEBAPP_PROJECT }}
