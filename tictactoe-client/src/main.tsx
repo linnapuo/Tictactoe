@@ -19,9 +19,9 @@ const oidcConfig: AuthProviderProps = {
 
 createRoot(document.getElementById("root")!).render(
   <StrictMode>
-    <CssBaseline />
     <Provider store={store}>
       <AppThemeProvider>
+        <CssBaseline />
         <AuthProvider {...oidcConfig}>
           <BrowserRouter>
             <AppRoutes />
