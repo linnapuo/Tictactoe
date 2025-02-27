@@ -9,6 +9,7 @@ import { createClientSlice } from "src/features/signalr/signalrClientSlice";
 
 const config = {
   url: `${import.meta.env.VITE_API_BASE_URL}/gamehub`,
+  apiKey: import.meta.env.VITE_API_KEY,
   endpoints: {
     gameState: "GameState",
     create: "Create",
@@ -18,7 +19,14 @@ const config = {
   },
 };
 
-const client = new HubConnectionBuilder().configureLogging(LogLevel.Debug).withUrl(config.url).build();
+const client = new HubConnectionBuilder()
+  .configureLogging(LogLevel.Debug)
+  .withUrl(config.url, {
+    headers: {
+      "X-Api-Key": config.apiKey
+    }
+  })
+  .build();
 
 const { slice, startClient } = createClientSlice({
   name: "gameClient",

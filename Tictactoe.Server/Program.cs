@@ -8,8 +8,6 @@ var builder = WebApplication.CreateBuilder(args);
 
 builder.AddServiceDefaults();
 
-//builder.Services.AddOpenApi("v1");
-
 builder.Services.AddSwaggerGen(options =>
 {
     options.ResolveConflictingActions(descriptions => descriptions.First());
@@ -74,8 +72,8 @@ builder.Services.AddOpenIddict().AddValidation(options =>
     //options.AddAudiences("tictactoe_server_1");
 
     options.UseIntrospection()
-    .SetClientId("tictactoe_server_1")
-    .SetClientSecret("tictactoe_server_1");
+        .SetClientId("tictactoe_server_1")
+        .SetClientSecret("tictactoe_server_1");
 
     // Register the System.Net.Http integration.
     options.UseSystemNetHttp();
@@ -86,6 +84,12 @@ builder.Services.AddOpenIddict().AddValidation(options =>
 
 builder.Services.AddAuthentication(OpenIddictValidationAspNetCoreDefaults.AuthenticationScheme);
 builder.Services.AddAuthorization();
+
+var apiKey = builder.Configuration
+    .GetValue<string>("ApiKey")
+    ?? throw new InvalidOperationException("Missing configuration ApiKey");
+
+builder.Services.AddTransient(sp => new ApiKeyMiddleware(apiKey));
 
 var app = builder.Build();
 
@@ -102,6 +106,8 @@ if (app.Environment.IsDevelopment())
 
 app.UseHttpsRedirection();
 
+app.UseMiddleware<ApiKeyMiddleware>();
+
 app.UseAuthentication();
 app.UseAuthorization();
 
@@ -109,6 +115,10 @@ app.UseCors();
 
 app.MapHub<GameHub>("/gamehub");
 app.MapHub<ChatHub>("/chathub");
-app.MapControllers();
+
+if (app.Environment.IsDevelopment())
+{
+    app.MapControllers();
+}
 
 app.Run();

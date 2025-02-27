@@ -7,6 +7,7 @@ import { useAppDispatch } from "src/app/hooks";
 
 const config = {
   url: `${import.meta.env.VITE_API_BASE_URL}/chathub`,
+  apiKey: import.meta.env.VITE_API_KEY,
   endpoints: {
     receive: "Receive",
     send: "Send",
@@ -15,7 +16,11 @@ const config = {
 
 const client = new HubConnectionBuilder()
   .configureLogging(LogLevel.Debug)
-  .withUrl(config.url)
+  .withUrl(config.url, {
+    headers: {
+      "X-Api-Key": config.apiKey
+    }
+  })
   .build();
 
 export const { slice, startClient } = createClientSlice({

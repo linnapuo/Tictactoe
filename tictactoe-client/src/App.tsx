@@ -13,7 +13,7 @@ function TopNavBar() {
       <Toolbar>
         <ToggleColorModeButton />
         <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
-          {import.meta.env.VITE_TEST_VAR}
+          Tictactoe
         </Typography>
         <AccountButton />
       </Toolbar>
