@@ -13,14 +13,38 @@ Prerequisites:
 - Node.js + pnpm
 
 ```
-> cd Tictactoe.AppHost
-> dotnet run
+cd Tictactoe.AppHost
+dotnet run
 ```
 
 ## How to start a game
 
 - Client 1 creates a game by entering a code
 - Client 2 joins the game by entering the same code
+
+## The most notable projects in this repository
+
+Tictactoe.Server
+- The game server deployed in Azure App Service
+- C# ASP.NET Core
+
+tictactoe-client
+- The game client deployed in Azure Static Web App
+- Vite React SPA
+
+Tictactoe.Engine
+- The logic handling a game of tictactoe
+
+Tictactoe.AppHost
+- .NET Aspire orchestration
+
+## Other projects
+
+Tictactoe.App
+- The game client using Blazor WASM
+
+Tictactoe.Authentication
+- OpenIddict authorization server
 
 ## Techstack
 
@@ -37,7 +61,7 @@ Backend:
 
 - C#
 - ASP.NET Core
-- ASP.NET Core Identity
+- ASP.NET Identity
 - OpenIddict
 - Entity Framework
 - SignalR
@@ -49,14 +73,14 @@ EF Core Migrations:
 - Install
 
 ```
-> dotnet tool install --global dotnet-ef
+dotnet tool install --global dotnet-ef
 ```
 
 - Run
 
 ```
-> cd Tictactoe.Authentication
-> dotnet ef database update
+cd Tictactoe.Authentication
+dotnet ef database update
 ```
 
 Run backend with authentication:
@@ -68,14 +92,14 @@ Run backend with authentication:
 Run frontend:
 
 ```
-> pnpm dev
+pnpm dev
 ```
 
 Deploy bicep:
 
 ```
-> cd infra
-> az deployment group create --resource-group rg-tictactoe --template-file .\main.bicep
+cd infra
+az deployment group create --resource-group rg-tictactoe --template-file .\main.bicep
 ```
 
 Further reading:
