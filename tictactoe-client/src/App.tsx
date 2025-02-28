@@ -6,6 +6,7 @@ import { Chat } from "src/features/chat/Chat";
 import { AccountButton } from "src/features/account/Login";
 import { GameClientProvider } from "src/features/game/gameClient";
 import { Outlet } from "react-router-dom";
+import { useAuth } from "react-oidc-context";
 
 function TopNavBar() {
   return (
@@ -39,6 +40,12 @@ function Footer() {
 }
 
 export default function App() {
+  const { isAuthenticated, signinRedirect } = useAuth();
+
+  if (!isAuthenticated) {
+    return <button onClick={() => signinRedirect()}>Authenticate</button>
+  }
+
   return (
     <div className="App">
       <Header />
