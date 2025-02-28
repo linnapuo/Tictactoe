@@ -16,11 +16,7 @@ const config = {
 
 const client = new HubConnectionBuilder()
   .configureLogging(LogLevel.Debug)
-  .withUrl(config.url, {
-    headers: {
-      "X-Api-Key": config.apiKey
-    }
-  })
+  .withUrl(config.url)
   .build();
 
 export const { slice, startClient } = createClientSlice({

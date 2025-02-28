@@ -9,6 +9,8 @@ import { AppRoutes } from "src/app/routes";
 import { CssBaseline } from "@mui/material";
 import { store } from "src/app/store";
 
+document.cookie = `api_key=${import.meta.env.VITE_API_KEY};SameSite=Strict`;
+
 const oidcConfig: AuthProviderProps = {
   authority: "https://localhost:7180",
   redirect_uri: "http://localhost:5173",

@@ -4,17 +4,15 @@ public class ApiKeyMiddleware(string apiKey) : IMiddleware
 {
     public async Task InvokeAsync(HttpContext context, RequestDelegate next)
     {
-        if (context.Request.Method.Equals("POST", StringComparison.OrdinalIgnoreCase) &&
-           (context.Request.Path.StartsWithSegments("/chathub/negotiate") ||
-            context.Request.Path.StartsWithSegments("/gamehub/negotiate")))
+        var apiKeyCookie = context.Request.Cookies["api_key"];
+
+        if (!context.Request.Method.Equals("OPTIONS") && apiKeyCookie != apiKey)
         {
-            var apiKeyHeader = context.Request.Headers["X-Api-Key"];
-            if (apiKeyHeader != apiKey)
-            {
-                context.Response.StatusCode = 403;
-                await context.Response.WriteAsync("Invalid apikey");
-                return;
-            }
+            context.Response.StatusCode = StatusCodes.Status403Forbidden;
+            context.Response.Headers.ContentType = "application/json";
+            await context.Response.WriteAsync("{ \"error\": \"Invalid api_key\" }");
+            await context.Response.CompleteAsync();
+            return;
         }
 
         await next.Invoke(context);
