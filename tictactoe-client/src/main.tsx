@@ -9,13 +9,11 @@ import { AppRoutes } from "src/app/routes";
 import { CssBaseline } from "@mui/material";
 import { store } from "src/app/store";
 
-document.cookie = `api_key=${import.meta.env.VITE_API_KEY};SameSite=Strict;Secure;`;
-
 const oidcConfig: AuthProviderProps = {
-  authority: "https://localhost:7180",
-  redirect_uri: "http://localhost:5173",
-  client_id: "react",
-  post_logout_redirect_uri: "http://localhost:5173",
+  authority: import.meta.env.VITE_OIDC_AUTHORITY,
+  redirect_uri: import.meta.env.VITE_OIDC_REDIRECT_URL,
+  client_id: import.meta.env.VITE_OIDC_CLIENT_ID,
+  post_logout_redirect_uri: import.meta.env.VITE_OIDC_REDIRECT_URL,
   onSigninCallback: () => history.replaceState({}, document.title, window.location.pathname),
 };
 
