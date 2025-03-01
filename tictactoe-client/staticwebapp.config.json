@@ -10,12 +10,10 @@
       "redirect": "/.auth/logout"
     },
     {
-      "route": "/.auth/login/aad",
-      "statusCode": 404
-    },
-    {
       "route": "/*",
-      "allowedRoles": ["contributor"]
+      "allowedRoles": [
+        "contributor"
+      ]
     }
   ],
   "responseOverrides": {
