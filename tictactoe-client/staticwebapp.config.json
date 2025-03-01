@@ -11,7 +11,6 @@
     },
     {
       "route": "/*",
-      "redirect": "/.auth/login/aad",
       "allowedRoles": [
         "contributor"
       ]
