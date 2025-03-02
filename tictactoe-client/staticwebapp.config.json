@@ -3,7 +3,7 @@
   "routes": [
     {
       "route": "/login",
-      "rewrite": "/.auth/login/github"
+      "rewrite": "/.auth/login/aad"
     },
     {
       "route": "/logout",
