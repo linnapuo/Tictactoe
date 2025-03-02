@@ -82,6 +82,7 @@ builder.Services.AddOpenIddict().AddValidation(options =>
     options.UseAspNetCore();
 });
 
+builder.Services.AddHttpLogging();
 builder.Services.AddAuthentication(OpenIddictValidationAspNetCoreDefaults.AuthenticationScheme);
 builder.Services.AddAuthorization();
 
