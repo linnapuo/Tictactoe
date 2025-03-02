@@ -85,12 +85,6 @@ builder.Services.AddOpenIddict().AddValidation(options =>
 builder.Services.AddAuthentication(OpenIddictValidationAspNetCoreDefaults.AuthenticationScheme);
 builder.Services.AddAuthorization();
 
-var apiKey = builder.Configuration
-    .GetValue<string>("ApiKey")
-    ?? throw new InvalidOperationException("Missing configuration ApiKey");
-
-builder.Services.AddTransient(sp => new ApiKeyMiddleware(apiKey));
-
 var app = builder.Build();
 
 app.MapDefaultEndpoints();
@@ -105,6 +99,8 @@ if (app.Environment.IsDevelopment())
 }
 
 app.UseHttpsRedirection();
+
+app.UseHttpLogging();
 
 app.UseAuthentication();
 app.UseAuthorization();

@@ -82,4 +82,21 @@ public class GameTests
 
         Assert.Equivalent(expected, result);
     }
+
+    [Fact]
+    public void MakeMove_ShouldNotAllowToMoveWhenGameOver()
+    {
+        var move = new Move("1", 5);
+
+        var lobby = new Lobby(
+            "1",
+            [new Player("connection-1", true), new Player("connection-2", false)],
+            new Game(false, ["X", "X", "X", "O", "O", null, null, null, null]));
+
+        var result = Funcs.MakeMove(move, lobby, "connection-2");
+
+        var expected = Result<Lobby, string>.Error("Game over");
+
+        Assert.Equivalent(expected, result);
+    }
 }

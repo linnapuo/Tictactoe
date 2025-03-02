@@ -9,7 +9,6 @@ import { createClientSlice } from "src/features/signalr/signalrClientSlice";
 
 const config = {
   url: `${import.meta.env.VITE_API_BASE_URL}/gamehub`,
-  apiKey: import.meta.env.VITE_API_KEY,
   endpoints: {
     gameState: "GameState",
     create: "Create",
