@@ -6,7 +6,7 @@ import { Chat } from "src/features/chat/Chat";
 import { AccountButton } from "src/features/account/Login";
 import { GameClientProvider } from "src/features/game/gameClient";
 import { Outlet } from "react-router-dom";
-import { useAuth } from "react-oidc-context";
+import { authUrl } from "src/auth";
 
 function TopNavBar() {
   return (
@@ -16,6 +16,7 @@ function TopNavBar() {
         <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
           Tictactoe
         </Typography>
+        <a href={authUrl}>Authenticate</a>
         <AccountButton />
       </Toolbar>
     </AppBar>
@@ -40,12 +41,6 @@ function Footer() {
 }
 
 export default function App() {
-  const { isAuthenticated, signinRedirect } = useAuth();
-
-  if (!isAuthenticated) {
-    return <button onClick={() => signinRedirect()}>Authenticate</button>
-  }
-
   return (
     <div className="App">
       <Header />

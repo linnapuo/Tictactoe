@@ -60,7 +60,6 @@ export const createClientSlice = ({ name, client }: { name: string; client: HubC
     },
     extraReducers: (builder) => {
       builder
-
         .addCase(startClient.fulfilled, () => {})
         .addCase(startClient.rejected, (state, action) => {
           state.error = action.error;

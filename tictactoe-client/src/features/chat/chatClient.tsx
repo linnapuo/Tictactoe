@@ -7,7 +7,6 @@ import { useAppDispatch } from "src/app/hooks";
 
 const config = {
   url: `${import.meta.env.VITE_API_BASE_URL}/chathub`,
-  apiKey: import.meta.env.VITE_API_KEY,
   endpoints: {
     receive: "Receive",
     send: "Send",
