@@ -1,12 +1,14 @@
 using Microsoft.AspNetCore.SignalR;
-using Microsoft.OpenApi.Models;
 using OpenIddict.Validation.AspNetCore;
 using Tictactoe.Server;
 using Microsoft.Azure.SignalR;
+using Microsoft.OpenApi;
 
 var builder = WebApplication.CreateBuilder(args);
 
 builder.AddServiceDefaults();
+
+builder.Services.AddOpenApi();
 
 builder.Services.AddSwaggerGen(options =>
 {
@@ -18,20 +20,9 @@ builder.Services.AddSwaggerGen(options =>
         OpenIdConnectUrl = new Uri("https://localhost:7180/.well-known/openid-configuration", UriKind.Absolute)
     });
 
-    options.AddSecurityRequirement(new OpenApiSecurityRequirement
+    options.AddSecurityRequirement(document => new OpenApiSecurityRequirement
     {
-        {
-            new OpenApiSecurityScheme
-            {
-                Type = SecuritySchemeType.OpenIdConnect,
-                Reference = new OpenApiReference
-                {
-                    Type = ReferenceType.SecurityScheme,
-                    Id = "OpenID Connect"
-                }
-            },
-            new List<string>()
-        }
+        [new OpenApiSecuritySchemeReference("OpenID Connect", document)] = []
     });
 });
 
@@ -92,7 +83,7 @@ app.MapDefaultEndpoints();
 
 if (app.Environment.IsDevelopment())
 {
-    app.UseSwagger();
+    app.MapOpenApi();
     app.UseSwaggerUI(options =>
     {
         options.OAuthUsePkce();

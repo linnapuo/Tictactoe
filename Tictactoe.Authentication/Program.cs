@@ -3,7 +3,7 @@ using Microsoft.AspNetCore.Components.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
-using Microsoft.OpenApi.Models;
+using Microsoft.OpenApi;
 using OpenIddict.Abstractions;
 using OpenIddict.Client;
 using OpenIddict.Validation.AspNetCore;
@@ -27,20 +27,9 @@ builder.Services.AddSwaggerGen(options =>
         OpenIdConnectUrl = new Uri("/.well-known/openid-configuration", UriKind.Relative)
     });
 
-    options.AddSecurityRequirement(new OpenApiSecurityRequirement
+    options.AddSecurityRequirement(document => new OpenApiSecurityRequirement
     {
-        {
-            new OpenApiSecurityScheme
-            {
-                Type = SecuritySchemeType.OpenIdConnect,
-                Reference = new OpenApiReference
-                {
-                    Type = ReferenceType.SecurityScheme,
-                    Id = "OpenID Connect"
-                }
-            },
-            new List<string>()
-        }
+        [new OpenApiSecuritySchemeReference("OpenID Connect", document)] = []
     });
 });
 
