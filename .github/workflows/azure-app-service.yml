@@ -17,7 +17,7 @@ env:
   TEST_PROJECT: './Tictactoe.Engine.UnitTest/Tictactoe.Engine.UnitTest.csproj'
   AZURE_WEBAPP_NAME: tic-app-ipzokncra66xw
   AZURE_WEBAPP_PACKAGE_PATH: './Tictactoe.Server'
-  DOTNET_VERSION: '9.0'
+  DOTNET_VERSION: '10.0'
 
 jobs:
   build:
@@ -35,8 +35,8 @@ jobs:
       - name: Setup .NET Core
         uses: actions/setup-dotnet@v4
         with:
-          dotnet-version: ${{ env.DOTNET_VERSION }} 
-      
+          dotnet-version: ${{ env.DOTNET_VERSION }}
+
       - name: Run engine tests
         run: dotnet test ${{ env.TEST_PROJECT }} -c Release
 
@@ -51,7 +51,7 @@ jobs:
         with:
           app-name: ${{ env.AZURE_WEBAPP_NAME }}
           package: '${{ env.AZURE_WEBAPP_PACKAGE_PATH }}/myapp'
-      
+
       - name: logout
         run: |
           az logout
