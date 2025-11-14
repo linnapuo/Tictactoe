@@ -2,6 +2,7 @@
 
   <PropertyGroup>
     <UserSecretsId>aspnet-Tictactoe.Authentication-b6da4e33-ca17-4025-8e86-6f2949e8c35a</UserSecretsId>
+    <NoWarn>BL0008</NoWarn>
   </PropertyGroup>
 
   <ItemGroup>
@@ -17,7 +18,6 @@
     <PackageReference Include="OpenIddict.Quartz" />
     <PackageReference Include="Quartz.Extensions.Hosting" />
     <PackageReference Include="Swashbuckle.AspNetCore" />
-    <PackageReference Include="System.Linq.Async" />
   </ItemGroup>
 
   <ItemGroup>
