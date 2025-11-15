@@ -1,0 +1,15 @@
+<Solution>
+  <Folder Name="/Solution Items/">
+    <File Path=".editorconfig" />
+    <File Path=".gitignore" />
+    <File Path="Directory.Build.props" />
+    <File Path="Directory.Packages.props" />
+  </Folder>
+  <Project Path="Tictactoe.App/Tictactoe.App.csproj" />
+  <Project Path="Tictactoe.AppHost/Tictactoe.AppHost.csproj" />
+  <Project Path="Tictactoe.Authentication/Tictactoe.Authentication.csproj" />
+  <Project Path="Tictactoe.Engine.UnitTest/Tictactoe.Engine.UnitTest.csproj" />
+  <Project Path="Tictactoe.Engine/Tictactoe.Engine.csproj" />
+  <Project Path="Tictactoe.Server/Tictactoe.Server.csproj" />
+  <Project Path="Tictactoe.ServiceDefaults/Tictactoe.ServiceDefaults.csproj" />
+</Solution>
