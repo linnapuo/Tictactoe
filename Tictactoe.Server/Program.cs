@@ -8,8 +8,6 @@ var builder = WebApplication.CreateBuilder(args);
 
 builder.AddServiceDefaults();
 
-builder.Services.AddOpenApi();
-
 builder.Services.AddSwaggerGen(options =>
 {
     options.ResolveConflictingActions(descriptions => descriptions.First());
@@ -83,7 +81,7 @@ app.MapDefaultEndpoints();
 
 if (app.Environment.IsDevelopment())
 {
-    app.MapOpenApi();
+    app.UseSwagger();
     app.UseSwaggerUI(options =>
     {
         options.OAuthUsePkce();
