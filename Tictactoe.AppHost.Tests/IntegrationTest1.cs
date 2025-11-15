@@ -32,8 +32,8 @@ public class IntegrationTest1
         await using var app = await appHost.BuildAsync(cancellationToken).WaitAsync(_defaultTimeout, cancellationToken);
         await app.StartAsync(cancellationToken).WaitAsync(_defaultTimeout, cancellationToken);
 
-        var httpClient = app.CreateHttpClient(Resources.PageResourceName, "http");
-        await app.ResourceNotifications.WaitForResourceHealthyAsync(Resources.PageResourceName, cancellationToken).WaitAsync(_defaultTimeout, cancellationToken);
+        var httpClient = app.CreateHttpClient(Resources.ClientResourceName, "http");
+        await app.ResourceNotifications.WaitForResourceHealthyAsync(Resources.ClientResourceName, cancellationToken).WaitAsync(_defaultTimeout, cancellationToken);
         var response = await httpClient.GetAsync("/", cancellationToken);
 
         Assert.Equal(HttpStatusCode.OK, response.StatusCode);
