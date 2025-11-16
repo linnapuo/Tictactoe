@@ -10,8 +10,6 @@ import { CssBaseline } from "@mui/material";
 import { store } from "src/app/store";
 import { oidcConfig } from "src/auth";
 
-
-
 createRoot(document.getElementById("root")!).render(
   <StrictMode>
     <Provider store={store}>

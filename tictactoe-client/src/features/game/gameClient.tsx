@@ -18,10 +18,7 @@ const config = {
   },
 };
 
-const client = new HubConnectionBuilder()
-  .configureLogging(LogLevel.Debug)
-  .withUrl(config.url)
-  .build();
+const client = new HubConnectionBuilder().configureLogging(LogLevel.Debug).withUrl(config.url).build();
 
 const { slice, startClient } = createClientSlice({
   name: "gameClient",
