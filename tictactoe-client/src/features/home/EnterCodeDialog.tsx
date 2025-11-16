@@ -1,6 +1,5 @@
 import styled from "@emotion/styled";
-import { LoadingButton } from "@mui/lab";
-import { Dialog, DialogTitle, DialogContent } from "@mui/material";
+import { Button, Dialog, DialogTitle, DialogContent } from "@mui/material";
 import { useState } from "react";
 import { useErrorHandler } from "src/features/error/Error";
 
@@ -59,9 +58,9 @@ function EnterCode({ onCodeEntered }: EnterCodeProps) {
           setCode(value);
         }}
       />
-      <LoadingButton onClick={clickHandler} loading={loading}>
+      <Button onClick={clickHandler} loading={loading}>
         Enter
-      </LoadingButton>
+      </Button>
     </>
   );
 }
