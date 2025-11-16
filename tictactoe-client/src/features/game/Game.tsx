@@ -1,12 +1,12 @@
 import { useAppSelector } from "src/app/hooks";
-import { Grid2, Typography } from "@mui/material";
+import { Button, Grid2, Typography } from "@mui/material";
 import styled from "@emotion/styled";
 import { SquareValue } from "src/features/game/gameApi";
 import { useErrorHandler } from "src/features/error/Error";
 import { selectGame } from "./gameSlice";
 import { selectGameClient, useGameClient } from "./gameClient";
-import { LoadingButton } from "@mui/lab";
 import { useState } from "react";
+import { useNavigate } from "react-router-dom";
 
 interface SquareProps {
   value: SquareValue;
@@ -23,7 +23,7 @@ interface BoardProps {
 function Square(props: SquareProps) {
   const [loading, setLoading] = useState(false);
 
-  const LoadingSquare = styled(LoadingButton)`
+  const LoadingSquare = styled(Button)`
     font-size: 80px;
     margin: 2px;
     min-width: 96px;
@@ -86,6 +86,7 @@ function Board(props: BoardProps) {
 }
 
 export function Game() {
+  const navigate = useNavigate();
   const game = useAppSelector(selectGame);
   const client = useAppSelector(selectGameClient);
   const errorHandler = useErrorHandler();
@@ -121,14 +122,17 @@ export function Game() {
   };
 
   return (
-    <Grid2 container justifyContent={"center"} className="game">
-      <Board squares={game.squares} onClick={moveHandler} highlight={winner?.line} />
-      <div className="game-info">
-        <Typography variant="h4" marginTop="2vmin">
-          {isSpectator ? (!winner ? "Spectating" : `${winner.value} wins`) : status}
-        </Typography>
-      </div>
-    </Grid2>
+    <>
+      <Grid2 container justifyContent={"center"} className="game">
+        <Board squares={game.squares} onClick={moveHandler} highlight={winner?.line} />
+        <div className="game-info">
+          <Typography variant="h4" marginTop="2vmin">
+            {isSpectator ? (!winner ? "Spectating" : `${winner.value} wins`) : status}
+          </Typography>
+        </div>
+      </Grid2>
+      <Button onClick={() => navigate("/")}>Back</Button>
+    </>
   );
 }
 
