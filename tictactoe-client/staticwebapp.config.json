@@ -11,9 +11,7 @@
     },
     {
       "route": "/*",
-      "allowedRoles": [
-        "contributor"
-      ]
+      "allowedRoles": ["contributor"]
     }
   ],
   "responseOverrides": {
