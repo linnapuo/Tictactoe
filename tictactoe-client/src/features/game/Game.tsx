@@ -1,5 +1,5 @@
 import { useAppSelector } from "src/app/hooks";
-import { Button, Grid2, Typography } from "@mui/material";
+import { Button, Grid, Typography } from "@mui/material";
 import styled from "@emotion/styled";
 import { SquareValue } from "src/features/game/gameApi";
 import { useErrorHandler } from "src/features/error/Error";
@@ -67,21 +67,21 @@ function Board(props: BoardProps) {
   }
 
   return (
-    <Grid2 container className="board">
+    <Grid container className="board">
       {[0, 1, 2].map((y) => {
         return (
-          <Grid2 container width={"100%"} key={y} justifyContent={"center"} className="board-row">
+          <Grid container width={"100%"} key={y} justifyContent={"center"} className="board-row">
             {[0, 1, 2].map((x) => {
               return (
-                <Grid2 key={x} textAlign={"center"}>
+                <Grid key={x} textAlign={"center"}>
                   {renderSquare(x + 3 * y)}
-                </Grid2>
+                </Grid>
               );
             })}
-          </Grid2>
+          </Grid>
         );
       })}
-    </Grid2>
+    </Grid>
   );
 }
 
@@ -123,14 +123,14 @@ export function Game() {
 
   return (
     <>
-      <Grid2 container justifyContent={"center"} className="game">
+      <Grid container justifyContent={"center"} className="game">
         <Board squares={game.squares} onClick={moveHandler} highlight={winner?.line} />
         <div className="game-info">
           <Typography variant="h4" marginTop="2vmin">
             {isSpectator ? (!winner ? "Spectating" : `${winner.value} wins`) : status}
           </Typography>
         </div>
-      </Grid2>
+      </Grid>
       <Button onClick={() => navigate("/")}>Back</Button>
     </>
   );
