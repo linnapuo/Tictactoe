@@ -23,6 +23,7 @@ export const useSignalrClient = () => {
   const { client } = useContext(SignalrContext);
 
   return {
-    sendMessage: ({ methodName, payload }: Message) => client.invoke(methodName, payload),
+    sendMessage: ({ methodName, payload }: Message) =>
+      !payload ? client.invoke(methodName) : client.invoke(methodName, payload),
   };
 };

@@ -7,11 +7,13 @@ import { AccountButton } from "src/features/account/Login";
 import { GameClientProvider } from "src/features/game/gameClient";
 import { Outlet } from "react-router-dom";
 import { authUrl } from "src/auth";
+import { HomeButton } from "./features/home/Home";
 
 function TopNavBar() {
   return (
     <AppBar>
       <Toolbar>
+        <HomeButton />
         <ToggleColorModeButton />
         <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
           Tictactoe

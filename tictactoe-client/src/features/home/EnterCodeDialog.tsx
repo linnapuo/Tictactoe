@@ -11,7 +11,7 @@ const Input = styled.input`
   border-radius: 3px;
 `;
 
-const StyledButton = styled.button`
+export const StyledButton = styled.button`
   min-width: 100%;
   font-size: 18px;
   padding: 10px;

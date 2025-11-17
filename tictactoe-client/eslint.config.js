@@ -1,11 +1,11 @@
+import { defineConfig } from "eslint/config";
 import eslint from "@eslint/js";
 import tseslint from "typescript-eslint";
-import pluginRefresh from "eslint-plugin-react-refresh";
 import pluginReactHooks from "eslint-plugin-react-hooks";
 import eslintConfigPrettier from "eslint-config-prettier";
 import reactCompiler from "eslint-plugin-react-compiler";
 
-export default tseslint.config(
+export default defineConfig(
   {
     ignores: ["dist/**/*.ts", "dist/**", "**/*.mjs", "eslint.config.js", "**/*.js", "vite.config.ts"],
   },
@@ -13,7 +13,6 @@ export default tseslint.config(
     files: ["**/*.{js,mjs,cjs,ts,jsx,tsx}"],
   },
   eslint.configs.recommended,
-  //pluginRefresh.configs.vite,
   ...tseslint.configs.recommended,
   {
     plugins: {

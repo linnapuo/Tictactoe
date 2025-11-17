@@ -6,6 +6,23 @@ namespace Tictactoe.Server;
 
 public class GameHub(IMemoryCache cache) : Hub
 {
+    public List<string> Lobbies()
+    {
+        if (cache is not MemoryCache memoryCache)
+        {
+            return [];
+        }
+
+        var lobbies = memoryCache.Keys
+            .Where(key => key is string)
+            .Select(memoryCache.Get)
+            .OfType<Lobby>()
+            .Select(x => x.GameId)
+            .ToList();
+
+        return lobbies;
+    }
+
     public async Task Create(Create create)
     {
         if (cache.TryGetValue(create.GameId, out Lobby? _))
@@ -15,7 +32,7 @@ public class GameHub(IMemoryCache cache) : Hub
 
         var lobby = Funcs.CreateGame(create, Context.ConnectionId);
 
-        cache.Set(create.GameId, lobby);
+        cache.Set(create.GameId, lobby, TimeSpan.FromMinutes(10));
 
         await Groups.AddToGroupAsync(Context.ConnectionId, lobby.GameId);
 
@@ -38,7 +55,7 @@ public class GameHub(IMemoryCache cache) : Hub
 
         lobby = result.ResultValue;
 
-        cache.Set(join.GameId, lobby);
+        cache.Set(join.GameId, lobby, TimeSpan.FromMinutes(10));
 
         await Groups.AddToGroupAsync(Context.ConnectionId, lobby.GameId);
 
@@ -52,7 +69,7 @@ public class GameHub(IMemoryCache cache) : Hub
             throw new HubException("Game does not exist");
         }
 
-        cache.Set(spectate.GameId, lobby);
+        cache.Set(spectate.GameId, lobby, TimeSpan.FromMinutes(10));
 
         await Groups.AddToGroupAsync(Context.ConnectionId, lobby!.GameId);
 
@@ -75,7 +92,7 @@ public class GameHub(IMemoryCache cache) : Hub
 
         lobby = result.ResultValue;
 
-        cache.Set(move.GameId, lobby);
+        cache.Set(move.GameId, lobby, TimeSpan.FromMinutes(10));
 
         await SendGamestate(lobby);
     }

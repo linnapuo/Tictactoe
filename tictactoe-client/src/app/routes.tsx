@@ -4,6 +4,7 @@ import { Admin } from "src/features/account/Admin";
 import Login from "src/features/account/Login";
 import { Game } from "src/features/game/Game";
 import { Home } from "src/features/home/Home";
+import { Lobbies } from "src/features/lobbies/Lobbies";
 import { Lobby } from "src/features/lobby/Lobby";
 
 export function AppRoutes() {
@@ -16,6 +17,7 @@ export function AppRoutes() {
         <Route path="lobby" element={<Lobby />} />
         <Route path="login" element={<Login />} />
         <Route path="admin" element={<Admin />} />
+        <Route path="lobbies" element={<Lobbies />} />
       </Route>
     </Routes>
   );
